@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.viewHolder.DogBreedsViewHolder
 
-class DogBreedsAdapter(val context: Context, val items: List<DogBreed>): RecyclerView.Adapter<DogBreedsViewHolder>() {
+class DogBreedsAdapter(val context: Context, val items: List<DogBreed>) :
+    RecyclerView.Adapter<DogBreedsViewHolder>() {
+    var openDogBreedInfoCallback: ((id: Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogBreedsViewHolder {
-       return DogBreedsViewHolder(context, parent)
+        return DogBreedsViewHolder(context, parent)
     }
 
     override fun getItemCount(): Int {
@@ -16,7 +19,8 @@ class DogBreedsAdapter(val context: Context, val items: List<DogBreed>): Recycle
     }
 
     override fun onBindViewHolder(holder: DogBreedsViewHolder, position: Int) {
-       holder.bindView(items[position])
+        holder.openDogBreedInfoCallback = openDogBreedInfoCallback
+        holder.bindView(items[position])
     }
 
 }
