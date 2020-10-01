@@ -9,26 +9,36 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class DogBreedsPresenter: BasePresenter<DogBreedsView>{
+class DogBreedsPresenter : BasePresenter<DogBreedsView> {
     private val repoRetriever = RepositoryRetriever()
     private lateinit var dogsBreedsView: DogBreedsView
-     fun initLoading() {
+    var currentCall: Call<List<DogBreed>>? = null
+    fun initLoading() {
         getDogBreeds()
     }
 
     private fun getDogBreeds() {
         repoRetriever.getDogBreeds(object : Callback<List<DogBreed>> {
             override fun onFailure(call: Call<List<DogBreed>>?, t: Throwable?) {
+                if (call != null) {
+                    currentCall = call
+                }
                 Log.e("MainActivity", "Problem calling Github API {${t?.message}}")
             }
 
-            override fun onResponse(call: Call<List<DogBreed>>?, response: Response<List<DogBreed>>?) {
+            override fun onResponse(
+                call: Call<List<DogBreed>>?,
+                response: Response<List<DogBreed>>?
+            ) {
+                if (call != null) {
+                    currentCall = call
+                }
                 response?.isSuccessful.let {
                     val resultList = response?.body()
                     if (resultList != null) {
                         dogsBreedsView.displayDogBreeds(resultList)
                     }
-                    Log.e("MainActivity", "Problem calling Github API {${resultList?.indexOf(1) }}")
+                    Log.e("MainActivity", "Problem calling Github API {${resultList?.indexOf(1)}}")
                 }
             }
         })
@@ -41,7 +51,7 @@ class DogBreedsPresenter: BasePresenter<DogBreedsView>{
     }
 
     override fun unSubscribe() {
-        TODO("Not yet implemented")
+        currentCall?.cancel()
     }
 
 }

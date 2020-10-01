@@ -27,7 +27,7 @@ class RepositoryRetriever {
         call.enqueue(callback)
     }
 
-    fun getBreedInfo(id: Int, callback: Callback<List<DogBreedInfo>>) {
+    fun getBreedInfo(id: Int, callback: Callback<List<DogBreedInfo>>?) {
         val call = service.getBreedInfo(id)
         call.enqueue(callback)
     }

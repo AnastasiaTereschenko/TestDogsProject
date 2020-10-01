@@ -7,14 +7,19 @@ import ch.iagentur.unity.testdogsproject.navigation.MainFragmentNavigator
 
 class MainActivity : AppCompatActivity() {
     val mainScreenFragmentNavigator = MainFragmentNavigator(supportFragmentManager)
-        get() = field
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mainScreenFragmentNavigator.navigateToDogBreedsFragment()
     }
-//    fun showDogsBreedsFragmentFragment() {
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mainScreenFragmentNavigator.navigateToDogBreedsFragment()
+    }
+
+    //    fun showDogsBreedsFragmentFragment() {
 //        val dogsBreedsFragment =
 //            DogBreedsFragment()
 //        this.supportFragmentManager.beginTransaction().add(

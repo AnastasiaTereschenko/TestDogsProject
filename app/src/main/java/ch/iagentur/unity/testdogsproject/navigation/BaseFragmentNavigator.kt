@@ -1,6 +1,8 @@
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedInfoFragment
+import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedsFragment
 
 abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
     fun isFragmentExist(tag: String): Boolean {
@@ -32,6 +34,9 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         doActionOnFragment(fragment) {
             if (fragment != null) {
                 it.add(containerId, fragment, tag)
+                if (fragment !is DogBreedsFragment) {
+                    it.addToBackStack(null)
+                }
             }
         }
     }

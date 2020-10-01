@@ -25,7 +25,15 @@ class DogBreedsFragment : Fragment(), DogBreedsView  {
         return inflater.inflate(R.layout.fragment_bog_breeds, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dogsBreedsPresenter.setView(this)
+        dogsBreedsPresenter.initLoading()
+        fdbProgressBar.visibility = View.VISIBLE
+    }
+
     override fun displayDogBreeds(dogBreeds: List<DogBreed>) {
+        fdbProgressBar?.visibility = View.GONE
         val dogBreedsAdapter =
             DogBreedsAdapter(
                 context!!,
@@ -42,9 +50,8 @@ class DogBreedsFragment : Fragment(), DogBreedsView  {
         //dogBreeds[0].name
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dogsBreedsPresenter.setView(this)
-        dogsBreedsPresenter.initLoading()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dogsBreedsPresenter.unSubscribe()
     }
 }

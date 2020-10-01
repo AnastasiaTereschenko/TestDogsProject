@@ -10,29 +10,36 @@ import retrofit2.Response
 
 class DogBreedsInfoPresenter : BasePresenter<DogBreedInfoView> {
     private val repoRetriever = RepositoryRetriever()
-    private lateinit var dogBreedInfoView: DogBreedInfoView
-    fun initLoading(id:Int) {
+    private var dogBreedInfoView: DogBreedInfoView? = null
+
+    fun initLoading(id: Int) {
         getDogBreedInfo(id)
     }
 
-    private fun getDogBreedInfo(id:Int) {
+    private fun getDogBreedInfo(id: Int) {
         repoRetriever.getBreedInfo(id, object : Callback<List<DogBreedInfo>> {
             override fun onFailure(call: Call<List<DogBreedInfo>>?, t: Throwable?) {
                 Log.e("DogBreedsInfoPresenter", "Problem calling Github API {${t?.message}}")
             }
 
-            override fun onResponse(call: Call<List<DogBreedInfo>>?, response: Response<List<DogBreedInfo>>?) {
+            override fun onResponse(
+                call: Call<List<DogBreedInfo>>?,
+                response: Response<List<DogBreedInfo>>?
+            ) {
                 response?.isSuccessful.let {
                     val result = response?.body()
-                    if (result != null) {
-                        dogBreedInfoView.displayDogBreedInfo(result.get(0))
+                    if (result != null ) {
+                        dogBreedInfoView?.displayDogBreedInfo(result.get(0))
                     }
-                    Log.e("DogBreedsInfoPresenter", "Problem calling Github API " +
-                            "{${result?.get(0)?.breeds?.get(0)?.name }}")
+                    Log.e(
+                        "DogBreedsInfoPresenter", "Problem calling Github API " +
+                                "{${result?.get(0)?.breeds?.get(0)?.name}}"
+                    )
                 }
             }
         })
     }
+
     override fun setView(view: DogBreedInfoView?) {
         if (view != null) {
             dogBreedInfoView = view
@@ -40,7 +47,6 @@ class DogBreedsInfoPresenter : BasePresenter<DogBreedInfoView> {
     }
 
     override fun unSubscribe() {
-        TODO("Not yet implemented")
+        dogBreedInfoView = null
     }
-
 }
