@@ -10,6 +10,7 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
     fun getFragmentByTag(tag: String): Fragment? {
         return fragmentManager.findFragmentByTag(tag)
     }
+    protected var currentTag = ""
 
     fun hideFragment(fragment: Fragment?) {
         doActionOnFragment(fragment) {
@@ -45,12 +46,19 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
     }
 
     fun navigateToFragment(tag: String, containerId: Int = getContainerId()) {
-        hideFragment(getFragmentByTag(tag))
+        hideFragment(getFragmentByTag(currentTag))
+        currentTag = tag
         if (isFragmentExist(tag)) {
-            showFragment(getFragmentByTag(tag))
+            showFragment(getFragmentByTag(currentTag))
         } else {
-            addFragment(containerId, createFragmentByTag(tag), tag )
+            addFragment(containerId, createFragmentByTag(currentTag), currentTag )
         }
+    }
+
+    fun navigateToFragment(fragment: Fragment?, tag: String, containerId: Int = getContainerId()) {
+        hideFragment(getFragmentByTag(currentTag))
+        currentTag = tag
+        addFragment(containerId, fragment, currentTag)
     }
 
     abstract fun createFragmentByTag(tag: String): Fragment

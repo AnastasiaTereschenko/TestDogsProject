@@ -18,15 +18,14 @@ class MainFragmentNavigator(fragmentManager: FragmentManager) :
         navigateToFragment(DOG_BREEDS, getContainerId())
     }
 
-    fun navigateToDogBreedInfoFragment () {
-        navigateToFragment(DOG_BREED_INFO, getContainerId())
+    fun navigateToDogBreedInfoFragment (fragment: Fragment) {
+        navigateToFragment(fragment, DOG_BREED_INFO, getContainerId())
     }
 
     override fun createFragmentByTag(tag: String): Fragment {
-        return when (tag) {
-            DOG_BREEDS -> DogBreedsFragment()
-            else -> DogBreedInfoFragment()
-        }
+        return DogBreedsFragment()
+//            DOG_BREEDS -> DogBreedsFragment()
+//            else ->
     }
 
     override fun getContainerId(): Int {

@@ -5,7 +5,7 @@
     android:background="?android:attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
-        android:id="@+id/rdbiDogBreedsNameTextView"
+        android:id="@+id/fdbiDogBreedNameTextView"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginLeft="16dp"

@@ -11,7 +11,7 @@ class DogBreedsViewHolder(val context: Context, parent: ViewGroup)
     var openDogBreedInfoCallback: ((id:Int) -> Unit)? = null
 
     fun bindView(item: DogBreed) {
-        itemView.dogBreedsNameTextView.text = item.name
+        itemView.rdbiDogBreedsNameTextView.text = item.name
         itemView.setOnClickListener { openDogBreedInfoCallback?.invoke(item.id) }
     }
 }

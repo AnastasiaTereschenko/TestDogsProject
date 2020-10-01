@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.navigation.MainFragmentNavigator
+import ch.iagentur.unity.testdogsproject.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 
 class DogBreedsFragment : Fragment(), DogBreedsView  {
@@ -31,11 +33,11 @@ class DogBreedsFragment : Fragment(), DogBreedsView  {
             )
         val layoutManager = LinearLayoutManager(context!!)
         val dividerItemDecoration = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
-        dogBreedsRecyclerView.layoutManager = layoutManager
-        dogBreedsRecyclerView.addItemDecoration(dividerItemDecoration)
-        dogBreedsRecyclerView.adapter = dogBreedsAdapter
+        fdbDogBreedsRecyclerView.layoutManager = layoutManager
+        fdbDogBreedsRecyclerView.addItemDecoration(dividerItemDecoration)
+        fdbDogBreedsRecyclerView.adapter = dogBreedsAdapter
         dogBreedsAdapter.openDogBreedInfoCallback = {
-
+            (activity as MainActivity).mainScreenFragmentNavigator.navigateToDogBreedInfoFragment(DogBreedInfoFragment.newInstance(it))
         }
         //dogBreeds[0].name
     }

@@ -4,12 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.navigation.MainFragmentNavigator
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedInfoFragment
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedsFragment
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedsPresenter
 
 class MainActivity : AppCompatActivity() {
-      val mainScreenFragmentNavigator = MainFragmentNavigator(supportFragmentManager)
+    val mainScreenFragmentNavigator = MainFragmentNavigator(supportFragmentManager)
+        get() = field
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
