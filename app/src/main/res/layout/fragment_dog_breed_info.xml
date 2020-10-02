@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/selectableItemBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="?android:attr/selectableItemBackground">
+
     <ProgressBar
         android:id="@+id/fdbiProgressBar"
         android:layout_width="wrap_content"
@@ -11,24 +12,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/fdbiDogBreedNameTextView"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:textSize="18dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/fdbiDogBreedImageView"
-        android:layout_height="160dp"
         android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
-        app:layout_constraintRight_toRightOf="parent"
+        android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fdbiDogBreedNameTextView" />
+    <TextView
+        android:id="@+id/fdbiDogBreedForTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/fdbiDogBreedImageView"
+        app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView
+        android:id="@+id/fdbiDogBreedTemperamentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/fdbiDogBreedForTextView"
+        app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView
+        android:id="@+id/fdbiDogBreedLifeSpanTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/fdbiDogBreedTemperamentTextView"
+        app:layout_constraintLeft_toLeftOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

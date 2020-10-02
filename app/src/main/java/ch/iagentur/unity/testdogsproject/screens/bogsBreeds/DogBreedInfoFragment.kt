@@ -1,5 +1,6 @@
 package ch.iagentur.unity.testdogsproject.screens.bogsBreeds
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,15 +50,28 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
         fdbiProgressBar.visibility = View.VISIBLE
     }
 
+    @SuppressLint("SetTextI18n")
     override fun displayDogBreedInfo(dogBreedInfo: DogBreedInfo) {
         fdbiProgressBar?.visibility = View.GONE
         fdbiDogBreedNameTextView.text = dogBreedInfo.breeds.get(0).name
+        if (!dogBreedInfo.breeds[0].bredFor.isNullOrEmpty()) {
+            fdbiDogBreedForTextView.text = "Breed for: " + dogBreedInfo.breeds.get(0).bredFor
+        }
+        if (!dogBreedInfo.breeds[0].temperament.isNullOrEmpty()) {
+            fdbiDogBreedTemperamentTextView.text =
+                "Temperament:  " + dogBreedInfo.breeds.get(0).temperament
+        }
+        if (!dogBreedInfo.breeds[0].lifeSpan.isNullOrEmpty()) {
+            fdbiDogBreedLifeSpanTextView.text = "Life span: " + dogBreedInfo.breeds.get(0).lifeSpan
+        }
         context?.let {
             Glide.with(it).load(dogBreedInfo.url).apply(
                 RequestOptions()
+                    .placeholder((ContextCompat.getDrawable(context!!, R.drawable.no_image)))
                 .dontAnimate())
                 .into(fdbiDogBreedImageView)
         }
+
     }
 
     override fun onDestroyView() {
