@@ -29,15 +29,22 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dogBreedsPresenter.setView(this)
-        dogBreedsPresenter.initLoading()
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
             dogBreedsPresenter.loadNextPage(it)
         }
         fdbProgressBar.visibility = View.VISIBLE
+        fdbDogBreedsSwipeRefresh.setOnRefreshListener {
+            setRefresh(true)
+            pagination.reset()
+            dogBreedsPresenter.loadNextPage()
+            dogBreedsAdapter.refreshData(mutableListOf())
+        }
     }
 
-
+    private fun setRefresh(isRefresh: Boolean) {
+        fdbDogBreedsSwipeRefresh.post { fdbDogBreedsSwipeRefresh.isRefreshing = isRefresh }
+    }
 
     fun initAdapter() {
         dogBreedsAdapter =
@@ -54,6 +61,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
+            setRefresh(false)
             pagination.finishLoadMoreItems()
             dogBreedsAdapter.addPage(dogBreeds)
             fdbProgressBar?.visibility = View.GONE
@@ -67,6 +75,10 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
         }
     }
 
+    override fun handleLoadingError() {
+        fdbProgressBar?.visibility = View.GONE
+        setRefresh(false)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

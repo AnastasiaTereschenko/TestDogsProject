@@ -14,13 +14,18 @@ class DogBreedsPresenter : BasePresenter<DogBreedsView> {
     private val repoRetriever = RepositoryRetriever()
     private lateinit var dogBreedsView: DogBreedsView
 
-    fun initLoading() {
+    override fun setView(view: DogBreedsView?) {
+        if (view != null) {
+            dogBreedsView = view
+        }
         loadNextPage()
     }
+
 
     fun loadNextPage(page: Int = 0) {
         repoRetriever.getDogBreeds(page, object : Callback<List<DogBreed>> {
             override fun onFailure(call: Call<List<DogBreed>>?, t: Throwable?) {
+                dogBreedsView.handleLoadingError()
                 Log.e("MainActivity", "Problem calling Github API {${t?.message}}")
             }
 
@@ -35,12 +40,6 @@ class DogBreedsPresenter : BasePresenter<DogBreedsView> {
                 }
             }
         })
-    }
-
-    override fun setView(view: DogBreedsView?) {
-        if (view != null) {
-            dogBreedsView = view
-        }
     }
 
     override fun unSubscribe() {

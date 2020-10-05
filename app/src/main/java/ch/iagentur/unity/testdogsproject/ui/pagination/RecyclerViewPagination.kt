@@ -12,6 +12,11 @@ class RecyclerViewPagination(recyclerView: RecyclerView, val callback: (page: In
     var page = 1
     var adapter: BaseAdapter<*> = recyclerView.adapter as BaseAdapter<*>
     var layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+
+    companion object {
+        const val DEFAULT_PAGE = 0
+    }
+
     private val recyclerViewOnScrollListener = object : OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
@@ -40,6 +45,12 @@ class RecyclerViewPagination(recyclerView: RecyclerView, val callback: (page: In
                 }
             }
         }
+    }
+
+    fun reset() {
+        isLoading = false
+        isLastPage = false
+        page = DEFAULT_PAGE
     }
 
     private fun startLoadMoreItems() {
