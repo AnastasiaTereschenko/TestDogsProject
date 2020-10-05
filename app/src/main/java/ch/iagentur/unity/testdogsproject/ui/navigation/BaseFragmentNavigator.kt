@@ -1,8 +1,7 @@
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedInfoFragment
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedsFragment
+import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 
 abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
     fun isFragmentExist(tag: String): Boolean {

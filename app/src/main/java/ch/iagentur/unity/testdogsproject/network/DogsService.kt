@@ -9,8 +9,8 @@ import retrofit2.http.Query
 
 
 interface DogsService {
-    @GET("breeds?attach_breed=0&page=0&limit=10")
-    fun getBreeds(): Call<List<DogBreed>>
+    @GET("breeds?attach_breed=0&limit=16")
+    fun getBreeds(@Query("page") page: Int): Call<List<DogBreed>>
 
     @GET("images/search?")
     fun getBreedInfo(@Query("breed_id") id: Int): Call<List<DogBreedInfo>>

@@ -1,9 +1,9 @@
-package ch.iagentur.unity.testdogsproject.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.util.Log
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
-import ch.iagentur.unity.testdogsproject.screens.base.BasePresenter
+import ch.iagentur.unity.testdogsproject.ui.screens.base.BasePresenter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

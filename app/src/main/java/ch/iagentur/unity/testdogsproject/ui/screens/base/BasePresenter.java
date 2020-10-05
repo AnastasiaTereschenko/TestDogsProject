@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.screens.base;
+package ch.iagentur.unity.testdogsproject.ui.screens.base;
 
 public interface BasePresenter<T> {
 

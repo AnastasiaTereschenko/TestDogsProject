@@ -1,9 +1,9 @@
-package ch.iagentur.unity.testdogsproject.screens.main
+package ch.iagentur.unity.testdogsproject.ui.screens.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ch.iagentur.unity.testdogsproject.R
-import ch.iagentur.unity.testdogsproject.navigation.MainFragmentNavigator
+import ch.iagentur.unity.testdogsproject.ui.navigation.MainFragmentNavigator
 
 class MainActivity : AppCompatActivity() {
     val mainScreenFragmentNavigator = MainFragmentNavigator(supportFragmentManager)

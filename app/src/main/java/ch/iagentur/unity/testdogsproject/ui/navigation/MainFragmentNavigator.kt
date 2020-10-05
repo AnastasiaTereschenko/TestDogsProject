@@ -1,11 +1,10 @@
-package ch.iagentur.unity.testdogsproject.navigation
+package ch.iagentur.unity.testdogsproject.ui.navigation
 
 import BaseFragmentNavigator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.iagentur.unity.testdogsproject.R
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedInfoFragment
-import ch.iagentur.unity.testdogsproject.screens.bogsBreeds.DogBreedsFragment
+import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 
 class MainFragmentNavigator(fragmentManager: FragmentManager) :
     BaseFragmentNavigator(fragmentManager) {

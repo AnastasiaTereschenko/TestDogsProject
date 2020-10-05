@@ -22,8 +22,8 @@ class RepositoryRetriever {
         service = retrofit.create(DogsService::class.java)
     }
 
-    fun getDogBreeds(callback: Callback<List<DogBreed>>) {
-        val call = service.getBreeds()
+    fun getDogBreeds(page: Int, callback: Callback<List<DogBreed>>) {
+        val call = service.getBreeds(page)
         call.enqueue(callback)
     }
 

@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.viewHolder
+package ch.iagentur.unity.testdogsproject.ui.viewHolder
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup

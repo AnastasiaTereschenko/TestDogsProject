@@ -1,6 +1,5 @@
-package ch.iagentur.unity.testdogsproject.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
-import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 
 
