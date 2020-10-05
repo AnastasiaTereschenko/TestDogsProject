@@ -13,6 +13,10 @@ import retrofit2.Response
 class DogBreedsPresenter : BasePresenter<DogBreedsView> {
     private val repoRetriever = RepositoryRetriever()
     private lateinit var dogBreedsView: DogBreedsView
+    var page: Int = 0
+    companion object {
+        const val DEFAULT_PAGE = 0
+    }
 
     override fun setView(view: DogBreedsView?) {
         if (view != null) {
@@ -22,7 +26,7 @@ class DogBreedsPresenter : BasePresenter<DogBreedsView> {
     }
 
 
-    fun loadNextPage(page: Int = 0) {
+    fun loadNextPage() {
         repoRetriever.getDogBreeds(page, object : Callback<List<DogBreed>> {
             override fun onFailure(call: Call<List<DogBreed>>?, t: Throwable?) {
                 dogBreedsView.handleLoadingError()
@@ -36,10 +40,15 @@ class DogBreedsPresenter : BasePresenter<DogBreedsView> {
                 response?.isSuccessful.let {
                     val resultList = response?.body()
                     dogBreedsView.displayDogBreeds(resultList)
+                    page++
                     Log.e("MainActivity", "Problem calling Github API {${resultList?.indexOf(1)}}")
                 }
             }
         })
+    }
+
+    fun resetPage() {
+        page = DEFAULT_PAGE
     }
 
     override fun unSubscribe() {

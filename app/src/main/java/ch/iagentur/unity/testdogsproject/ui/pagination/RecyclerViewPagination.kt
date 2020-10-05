@@ -6,16 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseAdapter
 
-class RecyclerViewPagination(recyclerView: RecyclerView, val callback: (page: Int) -> Unit) {
+class RecyclerViewPagination(recyclerView: RecyclerView, val callback:()-> Unit) {
     var isLoading: Boolean = false
     var isLastPage: Boolean = false
-    var page = 1
     var adapter: BaseAdapter<*> = recyclerView.adapter as BaseAdapter<*>
     var layoutManager: LinearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-
-    companion object {
-        const val DEFAULT_PAGE = 0
-    }
 
     private val recyclerViewOnScrollListener = object : OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -50,20 +45,17 @@ class RecyclerViewPagination(recyclerView: RecyclerView, val callback: (page: In
     fun reset() {
         isLoading = false
         isLastPage = false
-        page = DEFAULT_PAGE
     }
 
     private fun startLoadMoreItems() {
         isLoading = true
         adapter.addProgressRow()
-        callback(page)
-
+        callback()
     }
 
     fun finishLoadMoreItems() {
         isLoading = false
         adapter.removeProgressRow()
-        page++
     }
 
     fun lastPageLoaded() {
@@ -71,5 +63,4 @@ class RecyclerViewPagination(recyclerView: RecyclerView, val callback: (page: In
         isLoading = false
         adapter.removeProgressRow()
     }
-
 }

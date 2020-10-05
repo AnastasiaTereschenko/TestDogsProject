@@ -17,6 +17,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
     private var dogBreedsPresenter: DogBreedsPresenter = DogBreedsPresenter()
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
+    var localDogBreeds: MutableList<DogBreed?> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,14 +32,23 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
         dogBreedsPresenter.setView(this)
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
-            dogBreedsPresenter.loadNextPage(it)
+            dogBreedsPresenter.loadNextPage()
         }
+        fdbErrorLoadingView.visibility = View.GONE
         fdbProgressBar.visibility = View.VISIBLE
         fdbDogBreedsSwipeRefresh.setOnRefreshListener {
             setRefresh(true)
             pagination.reset()
+            dogBreedsPresenter.resetPage()
             dogBreedsPresenter.loadNextPage()
             dogBreedsAdapter.refreshData(mutableListOf())
+            localDogBreeds = mutableListOf()
+        }
+        fdbReloadImageView.setOnClickListener {
+            fdbProgressBar.visibility = View.VISIBLE
+            fdbErrorLoadingView.visibility = View.GONE
+            dogBreedsPresenter.loadNextPage()
+            localDogBreeds.clear()
         }
     }
 
@@ -46,7 +56,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
         fdbDogBreedsSwipeRefresh.post { fdbDogBreedsSwipeRefresh.isRefreshing = isRefresh }
     }
 
-    fun initAdapter() {
+    private fun initAdapter() {
         dogBreedsAdapter =
             DogBreedsAdapter(
                 context!!
@@ -61,6 +71,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
+            localDogBreeds.addAll(dogBreeds)
             setRefresh(false)
             pagination.finishLoadMoreItems()
             dogBreedsAdapter.addPage(dogBreeds)
@@ -76,7 +87,12 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
     }
 
     override fun handleLoadingError() {
-        fdbProgressBar?.visibility = View.GONE
+        if (localDogBreeds.isEmpty()) {
+            fdbErrorLoadingView.visibility = View.VISIBLE
+            fdbProgressBar.visibility = View.GONE
+        } else {
+            pagination.isLoading = false
+        }
         setRefresh(false)
     }
 

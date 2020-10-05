@@ -33,4 +33,25 @@
       app:layout_constraintTop_toTopOf="parent"/>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+  <LinearLayout
+      android:id="@+id/fdbErrorLoadingView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Error loading. Try again."
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"/>
+    <ImageView
+        android:id="@+id/fdbReloadImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_reload"
+        android:layout_gravity="center_horizontal"/>
+  </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

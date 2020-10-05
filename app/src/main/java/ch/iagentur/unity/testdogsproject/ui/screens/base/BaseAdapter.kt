@@ -27,8 +27,10 @@ abstract class BaseAdapter<T>(var items: MutableList<T?>) :
 
     fun addProgressRow() {
         val itemInsertPosition = itemCount
-        items.add(null)
-        notifyItemInserted(itemInsertPosition)
+        if (!items.contains(null)) {
+            items.add(null)
+            notifyItemInserted(itemInsertPosition)
+        }
     }
 
     fun removeProgressRow() {
