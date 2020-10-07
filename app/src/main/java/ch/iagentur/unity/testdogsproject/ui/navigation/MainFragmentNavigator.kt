@@ -1,13 +1,14 @@
 package ch.iagentur.unity.testdogsproject.ui.navigation
 
-import BaseFragmentNavigator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
+import javax.inject.Inject
 
-class MainFragmentNavigator(fragmentManager: FragmentManager) :
-    BaseFragmentNavigator(fragmentManager) {
+class MainFragmentNavigator @Inject constructor(supportFragmentManager: FragmentManager) :
+    BaseFragmentNavigator(supportFragmentManager) {
     companion object {
         const val DOG_BREEDS = "dog_breeds"
         const val DOG_BREED_INFO = "dog_breed_info"
