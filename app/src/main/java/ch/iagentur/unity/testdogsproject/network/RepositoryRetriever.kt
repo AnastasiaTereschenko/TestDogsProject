@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class RepositoryRetriever {
+class RepositoryRetriever @Inject constructor() {
     private val service: DogsService
 
     companion object {

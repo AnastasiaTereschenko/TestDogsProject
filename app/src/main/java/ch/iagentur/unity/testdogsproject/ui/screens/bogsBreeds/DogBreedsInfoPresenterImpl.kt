@@ -9,8 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class DogBreedsInfoPresenterImpl @Inject constructor(): BasePresenter<DogBreedInfoView> {
-    private val repoRetriever = RepositoryRetriever()
+class DogBreedsInfoPresenterImpl @Inject constructor(private val repoRetriever: RepositoryRetriever): BasePresenter<DogBreedInfoView> {
     private var dogBreedInfoView: DogBreedInfoView? = null
 
     fun initLoading(id: Int) {

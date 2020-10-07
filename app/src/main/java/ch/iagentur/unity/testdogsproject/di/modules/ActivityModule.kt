@@ -7,17 +7,17 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ActivityModule constructor(private val activity: AppCompatActivity){
+class ActivityModule constructor(private val activity: AppCompatActivity) {
 
     @Provides
     @PerActivity
-    fun activity(): AppCompatActivity {
+    fun provideActivity(): AppCompatActivity {
         return activity
     }
 
     @Provides
     @PerActivity
-    fun navigator(): MainFragmentNavigator {
+    fun provideNavigator(): MainFragmentNavigator {
         return MainFragmentNavigator(activity.supportFragmentManager)
     }
 
