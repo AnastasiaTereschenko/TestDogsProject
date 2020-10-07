@@ -5,7 +5,7 @@ import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+import javax.inject.Inject
 
 class RepositoryRetriever {
     private val service: DogsService

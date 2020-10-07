@@ -8,9 +8,9 @@ import ch.iagentur.unity.testdogsproject.ui.screens.base.BasePresenter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-
-class DogBreedsPresenter : BasePresenter<DogBreedsView> {
+class DogBreedsPresenterImpl @Inject constructor(): BasePresenter<DogBreedsView> {
     private val repoRetriever = RepositoryRetriever()
     private lateinit var dogBreedsView: DogBreedsView
     var page: Int = 0

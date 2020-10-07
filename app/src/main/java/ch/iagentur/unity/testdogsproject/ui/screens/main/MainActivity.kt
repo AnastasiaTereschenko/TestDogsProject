@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.di.modules.ActivityModule
-import ch.iagentur.unity.testdogsproject.di.DaggerActivityComponent
+import ch.iagentur.unity.testdogsproject.di.components.DaggerActivityComponent
 import ch.iagentur.unity.testdogsproject.ui.navigation.MainFragmentNavigator
 import javax.inject.Inject
 

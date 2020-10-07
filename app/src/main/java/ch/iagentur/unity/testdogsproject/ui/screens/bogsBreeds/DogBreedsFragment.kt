@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
+import javax.inject.Inject
 
 class DogBreedsFragment : Fragment(), DogBreedsView {
-    private var dogBreedsPresenter: DogBreedsPresenter = DogBreedsPresenter()
+    @Inject
+    lateinit var dogBreedsPresenter: DogBreedsPresenterImpl
+
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
     var localDogBreeds: MutableList<DogBreed?> = mutableListOf()
@@ -29,6 +33,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        DaggerFragmentComponent.create().inject(this)
         dogBreedsPresenter.setView(this)
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {

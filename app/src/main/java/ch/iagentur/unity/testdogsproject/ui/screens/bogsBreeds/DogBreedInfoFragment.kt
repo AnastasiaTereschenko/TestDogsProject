@@ -12,10 +12,12 @@ import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_dog_breed_info.*
+import javax.inject.Inject
 
 class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
-    private val dogBreedsInfoPresenter: DogBreedsInfoPresenter =
-        DogBreedsInfoPresenter()
+    @Inject
+    lateinit var dogBreedsInfoPresenter: DogBreedsInfoPresenterImpl
+
     companion object {
         const val BREED_ID = "breed_id"
         @JvmStatic
