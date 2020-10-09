@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
+import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_dog_breed_info.*
@@ -30,8 +31,10 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
         }
     }
     var breedId: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DaggerFragmentComponent.create().inject(this)
         if (arguments != null) {
             breedId = arguments!!.getInt(BREED_ID)
         }

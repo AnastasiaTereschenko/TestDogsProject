@@ -23,6 +23,11 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
     lateinit var dogBreedsAdapter: DogBreedsAdapter
     var localDogBreeds: MutableList<DogBreed?> = mutableListOf()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerFragmentComponent.create().inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,7 +38,6 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DaggerFragmentComponent.create().inject(this)
         dogBreedsPresenter.setView(this)
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {

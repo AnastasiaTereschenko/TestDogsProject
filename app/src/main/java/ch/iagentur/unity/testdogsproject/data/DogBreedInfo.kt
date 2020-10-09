@@ -1,3 +1,9 @@
 package ch.iagentur.unity.testdogsproject.data
 
-class DogBreedInfo(val breeds: List<DogBreed>, id: String, val url: String, width: Int, height: Int)
+data class DogBreedInfo(
+    val breeds: List<DogBreed>,
+    val id: String,
+    val url: String,
+    val width: Int,
+    val height: Int
+)

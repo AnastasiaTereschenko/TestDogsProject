@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.misc
+package ch.iagentur.unity.testdogsproject.misc.extension
 
 import android.content.Context
 import android.view.LayoutInflater
