@@ -7,7 +7,7 @@ import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 import dagger.Component
 
 @PerFragment
-@Component(modules = [FragmentModule::class])
+@Component(dependencies = [ActivityComponent::class], modules = [FragmentModule::class])
 interface FragmentComponent {
     fun inject(dogBreedsFragment: DogBreedsFragment)
     fun inject(dogBreedInfoFragment: DogBreedInfoFragment)

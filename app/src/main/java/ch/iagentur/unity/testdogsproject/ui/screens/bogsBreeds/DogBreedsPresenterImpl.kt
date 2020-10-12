@@ -1,15 +1,15 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.util.Log
-import ch.iagentur.unity.testdogsproject.data.network.DogBreedsInteractor
 import ch.iagentur.unity.testdogsproject.data.source.Result
+import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BasePresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DogBreedsPresenterImpl @Inject constructor(private val dogBreedsInteractor: DogBreedsInteractor) :
+class DogBreedsPresenterImpl @Inject constructor(private val repositoryRetriever: RepositoryRetriever) :
     BasePresenter<DogBreedsView> {
     private lateinit var dogBreedsView: DogBreedsView
     var page: Int = 0
@@ -28,7 +28,7 @@ class DogBreedsPresenterImpl @Inject constructor(private val dogBreedsInteractor
 
     fun loadNextPage() {
         GlobalScope.launch(Dispatchers.Main) {
-            when (val result = dogBreedsInteractor.getDogBreeds(page)) {
+            when (val result = repositoryRetriever.getDogBreeds(page)) {
                 is Result.Success -> {
                     dogBreedsView.displayDogBreeds(result.data)
                     page++
@@ -38,6 +38,7 @@ class DogBreedsPresenterImpl @Inject constructor(private val dogBreedsInteractor
                 }
             }
         }
+
 //        repoRetriever.getDogBreeds(page, object : Callback<List<DogBreed>> {
 //            override fun onFailure(call: Call<List<DogBreed>>?, t: Throwable?) {
 //                dogBreedsView.handleLoadingError()

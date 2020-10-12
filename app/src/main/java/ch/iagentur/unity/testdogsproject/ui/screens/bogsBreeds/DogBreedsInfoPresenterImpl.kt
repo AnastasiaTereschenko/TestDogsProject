@@ -1,14 +1,14 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.util.Log
-import ch.iagentur.unity.testdogsproject.data.network.DogBreedsInfoInteractor
 import ch.iagentur.unity.testdogsproject.data.source.Result
+import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BasePresenter
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class DogBreedsInfoPresenterImpl @Inject constructor(private val dogBreedsInfoInteractor: DogBreedsInfoInteractor) :
+class DogBreedsInfoPresenterImpl @Inject constructor(private val repositoryRetriever: RepositoryRetriever) :
     BasePresenter<DogBreedInfoView> {
     private var dogBreedInfoView: DogBreedInfoView? = null
     private val parentJob = Job()
@@ -22,7 +22,7 @@ class DogBreedsInfoPresenterImpl @Inject constructor(private val dogBreedsInfoIn
 
     private fun getDogBreedInfo(id: Int) {
         GlobalScope.launch(Dispatchers.Main) {
-            when (val result = dogBreedsInfoInteractor.getDogBreedInfo(id)) {
+            when (val result = repositoryRetriever.getDogBreedInfo(id)) {
                 is Result.Success -> {
                     dogBreedInfoView?.displayDogBreedInfo(result.data[0])
                 }

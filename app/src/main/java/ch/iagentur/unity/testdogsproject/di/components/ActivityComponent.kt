@@ -6,7 +6,7 @@ import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import dagger.Component
 
 @PerActivity
-@Component(modules = [ActivityModule::class])
+@Component(dependencies = [AppComponent::class], modules = [ActivityModule::class])
 interface ActivityComponent {
     fun inject(activity: MainActivity)
 }
