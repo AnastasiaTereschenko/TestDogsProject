@@ -34,7 +34,7 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerFragmentComponent.create().inject(this)
+        DaggerFragmentComponent.builder().build().inject(this)
         if (arguments != null) {
             breedId = arguments!!.getInt(BREED_ID)
         }

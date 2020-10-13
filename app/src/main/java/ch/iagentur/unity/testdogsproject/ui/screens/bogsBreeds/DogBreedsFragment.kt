@@ -11,6 +11,7 @@ import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
+import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerFragmentComponent.create().inject(this)
+        DaggerFragmentComponent.builder().activityComponent((context as BaseActivity).activityComponent).build().inject(this)
     }
 
     override fun onCreateView(

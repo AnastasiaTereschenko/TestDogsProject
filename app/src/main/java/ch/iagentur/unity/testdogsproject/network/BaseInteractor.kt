@@ -1,37 +1,35 @@
 package ch.iagentur.unity.testdogsproject.network
 
 
-import android.util.Log
 import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.misc.exception.NetworkException
-import ch.iagentur.unity.testdogsproject.misc.exception.NoInternetConnectionException
 import ch.iagentur.unity.testdogsproject.misc.exception.NullableResponseException
 import ch.iagentur.unity.testdogsproject.misc.utils.NetworkUtils
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import javax.inject.Inject
 
 
-open class BaseInteractor{
+open class BaseInteractor {
     @Inject
     lateinit var networkUtils: NetworkUtils
 
     suspend fun <T : Any> execute(call: suspend () -> Response<T>): Result<T>? {
-        return try {
+        try {
             val response = call.invoke()
-            Result.Success(response.body()!!)
-//            else {
-//                Result.Error(getError(response))
-//            }
+            return if (response.isSuccessful) {
+
+                val responseBody = response.body()
+
+                if (responseBody != null) {
+                    Result.Success(responseBody)
+                } else {
+                    Result.Error(NullableResponseException())
+                }
+            } else {
+                Result.Error(NetworkException(response.errorBody()?.string(), response.code()))
+            }
         } catch (th: Throwable) {
-            Result.Error(th)
+            return Result.Error(th)
         }
     }
-
-//    fun getError(response: Response<T>?): NetworkException {
-//        val error = NetworkException(response?.errorBody()?.string(), response?.code() ?: 0)
-//        Log.d("BaseRepository", "error  ${response?.code()} urk ${response?.raw()?.request()?.url()} ")
-//        return error
-//    }
-
 }

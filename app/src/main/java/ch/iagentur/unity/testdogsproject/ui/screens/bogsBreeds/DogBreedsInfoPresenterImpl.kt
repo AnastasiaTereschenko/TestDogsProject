@@ -11,10 +11,6 @@ import kotlin.coroutines.CoroutineContext
 class DogBreedsInfoPresenterImpl @Inject constructor(private val repositoryRetriever: RepositoryRetriever) :
     BasePresenter<DogBreedInfoView> {
     private var dogBreedInfoView: DogBreedInfoView? = null
-    private val parentJob = Job()
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Default
-    private val scope = CoroutineScope(coroutineContext)
 
     fun initLoading(id: Int) {
         getDogBreedInfo(id)

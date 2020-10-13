@@ -1,6 +1,5 @@
 package ch.iagentur.unity.testdogsproject.network
 
-import android.os.AsyncTask.execute
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.data.source.Result
@@ -9,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 
-class RepositoryRetriever @Inject constructor(): BaseInteractor() {
+class RepositoryRetriever @Inject constructor() : BaseInteractor() {
     private val service: DogsService
 
     companion object {
@@ -24,16 +23,12 @@ class RepositoryRetriever @Inject constructor(): BaseInteractor() {
         service = retrofit.create(DogsService::class.java)
     }
 
-    fun getService(): DogsService {
-        return service
+    suspend fun getDogBreeds(page: Int): Result<List<DogBreed>>? {
+        return execute { service.getBreeds(page) }
     }
 
-    suspend fun getDogBreeds(page:Int): Result<List<DogBreed>>? {
-        return execute{ getService().getBreeds(page)}
-    }
-
-    suspend fun getDogBreedInfo(id:Int): Result<List<DogBreedInfo>>? {
-        return execute {getService().getBreedInfo(id)}
+    suspend fun getDogBreedInfo(id: Int): Result<List<DogBreedInfo>>? {
+        return execute { service.getBreedInfo(id) }
     }
 
 }
