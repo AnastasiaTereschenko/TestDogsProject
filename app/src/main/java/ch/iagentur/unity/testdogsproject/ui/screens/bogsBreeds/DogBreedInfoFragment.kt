@@ -2,13 +2,17 @@ package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
+import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import com.bumptech.glide.Glide
@@ -19,6 +23,9 @@ import javax.inject.Inject
 class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
     @Inject
     lateinit var dogBreedsInfoPresenter: DogBreedsInfoPresenterImpl
+
+    @Inject
+    lateinit var dogBreedInfoViewModel: DogBreedInfoViewModel
 
     companion object {
         const val BREED_ID = "breed_id"
@@ -52,8 +59,17 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dogBreedsInfoPresenter.setView(this)
-        dogBreedsInfoPresenter.initLoading(breedId)
+        dogBreedInfoViewModel.getDogBreedInfo(breedId)
+        dogBreedInfoViewModel.dogBreedInfoLiveData.observe(this as LifecycleOwner, Observer {
+            when (it) {
+                is Result.Success -> {
+                    displayDogBreedInfo(it.data[0])
+                }
+                is Result.Error -> {
+                    Log.e("DogBreedInfoFragment", "error {${it.exception}}")
+                }
+            }
+        })
         fdbiProgressBar.visibility = View.VISIBLE
     }
 
@@ -79,10 +95,5 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
                 .into(fdbiDogBreedImageView)
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dogBreedsInfoPresenter.unSubscribe()
     }
 }

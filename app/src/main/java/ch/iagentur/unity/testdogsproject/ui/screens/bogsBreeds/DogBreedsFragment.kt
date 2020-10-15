@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.R
@@ -13,13 +15,15 @@ import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
+import ch.iagentur.unity.testdogsproject.data.source.Result
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 import javax.inject.Inject
 
 class DogBreedsFragment : Fragment(), DogBreedsView {
     @Inject
     lateinit var dogBreedsPresenter: DogBreedsPresenterImpl
-
+    @Inject
+    lateinit var dogBreedsViewModel: DogBreedsViewModel
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
     var localDogBreeds: MutableList<DogBreed?> = mutableListOf()
@@ -42,27 +46,37 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dogBreedsPresenter.setView(this)
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
-            dogBreedsPresenter.loadNextPage()
+            dogBreedsViewModel.getDogBreeds()
         }
+        dogBreedsViewModel.getDogBreeds()
         fdbErrorLoadingView.visibility = View.GONE
         fdbProgressBar.visibility = View.VISIBLE
         fdbDogBreedsSwipeRefresh.setOnRefreshListener {
             setRefresh(true)
             pagination.reset()
-            dogBreedsPresenter.resetPage()
-            dogBreedsPresenter.loadNextPage()
+            dogBreedsViewModel.resetPage()
+            dogBreedsViewModel.getDogBreeds()
             dogBreedsAdapter.refreshData(mutableListOf())
             localDogBreeds = mutableListOf()
         }
         fdbReloadImageView.setOnClickListener {
             fdbProgressBar.visibility = View.VISIBLE
             fdbErrorLoadingView.visibility = View.GONE
-            dogBreedsPresenter.loadNextPage()
+            dogBreedsViewModel.getDogBreeds()
             localDogBreeds.clear()
         }
+        dogBreedsViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
+            when (it) {
+                is Result.Success -> {
+                    displayDogBreeds(it.data)
+                }
+                is Result.Error -> {
+                    handleLoadingError()
+                }
+            }
+        })
     }
 
     private fun setRefresh(isRefresh: Boolean) {
@@ -107,10 +121,5 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
             pagination.isLoading = false
         }
         setRefresh(false)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dogBreedsPresenter.unSubscribe()
     }
 }

@@ -1,6 +1,7 @@
 package ch.iagentur.unity.testdogsproject.di.modules
 
 import android.content.Context
+import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,5 +13,11 @@ class AppModule constructor(private val context: Context) {
     @Singleton
     fun provideApplicationContext(): Context {
         return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppExecutor(): AppExecutors {
+        return AppExecutors()
     }
 }
