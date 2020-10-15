@@ -19,9 +19,7 @@ import ch.iagentur.unity.testdogsproject.data.source.Result
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 import javax.inject.Inject
 
-class DogBreedsFragment : Fragment(), DogBreedsView {
-    @Inject
-    lateinit var dogBreedsPresenter: DogBreedsPresenterImpl
+class DogBreedsFragment : Fragment() {
     @Inject
     lateinit var dogBreedsViewModel: DogBreedsViewModel
     lateinit var pagination: RecyclerViewPagination
@@ -96,7 +94,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
         fdbDogBreedsRecyclerView.addItemDecoration(dividerItemDecoration)
     }
 
-    override fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
+     fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
             localDogBreeds.addAll(dogBreeds)
             setRefresh(false)
@@ -113,7 +111,7 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
         }
     }
 
-    override fun handleLoadingError() {
+     fun handleLoadingError() {
         if (localDogBreeds.isEmpty()) {
             fdbErrorLoadingView.visibility = View.VISIBLE
             fdbProgressBar.visibility = View.GONE

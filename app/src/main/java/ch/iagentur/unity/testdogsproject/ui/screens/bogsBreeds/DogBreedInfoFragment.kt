@@ -20,10 +20,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_dog_breed_info.*
 import javax.inject.Inject
 
-class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
-    @Inject
-    lateinit var dogBreedsInfoPresenter: DogBreedsInfoPresenterImpl
-
+class DogBreedInfoFragment : Fragment() {
     @Inject
     lateinit var dogBreedInfoViewModel: DogBreedInfoViewModel
 
@@ -74,7 +71,7 @@ class DogBreedInfoFragment : Fragment(), DogBreedInfoView {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun displayDogBreedInfo(dogBreedInfo: DogBreedInfo) {
+    fun displayDogBreedInfo(dogBreedInfo: DogBreedInfo) {
         fdbiProgressBar?.visibility = View.GONE
         fdbiDogBreedNameTextView.text = dogBreedInfo.breeds.get(0).name
         if (!dogBreedInfo.breeds[0].bredFor.isNullOrEmpty()) {

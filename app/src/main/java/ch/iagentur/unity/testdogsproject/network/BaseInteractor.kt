@@ -3,6 +3,7 @@ package ch.iagentur.unity.testdogsproject.network
 
 import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.misc.exception.NetworkException
+import ch.iagentur.unity.testdogsproject.misc.exception.NoInternetConnectionException
 import ch.iagentur.unity.testdogsproject.misc.exception.NullableResponseException
 import ch.iagentur.unity.testdogsproject.misc.utils.NetworkUtils
 import retrofit2.Response
@@ -15,6 +16,9 @@ open class BaseInteractor {
 
     suspend fun <T : Any> execute(call: suspend () -> Response<T>): Result<T>? {
         try {
+            if (!networkUtils.isNetworkAvailable()) {
+               return Result.Error(NoInternetConnectionException())
+            }
             val response = call.invoke()
             return if (response.isSuccessful) {
 
