@@ -34,29 +34,11 @@ class DogBreedsPresenterImpl @Inject constructor(private val repositoryRetriever
                     page++
                 }
                 is Result.Error -> {
+                    dogBreedsView.handleLoadingError()
                     Log.e("DogBreedsPresenter", "error {${result.exception}}")
                 }
             }
         }
-
-//        repoRetriever.getDogBreeds(page, object : Callback<List<DogBreed>> {
-//            override fun onFailure(call: Call<List<DogBreed>>?, t: Throwable?) {
-//                dogBreedsView.handleLoadingError()
-//                Log.e("MainActivity", "Problem calling Github API {${t?.message}}")
-//            }
-//
-//            override fun onResponse(
-//                call: Call<List<DogBreed>>?,
-//                response: Response<List<DogBreed>>?
-//            ) {
-//                response?.isSuccessful.let {
-//                    val resultList = response?.body()
-//                    dogBreedsView.displayDogBreeds(resultList)
-//                    page++
-//                    Log.e("MainActivity", "Problem calling Github API {${resultList?.indexOf(1)}}")
-//                }
-//            }
-//        })
     }
 
     fun resetPage() {

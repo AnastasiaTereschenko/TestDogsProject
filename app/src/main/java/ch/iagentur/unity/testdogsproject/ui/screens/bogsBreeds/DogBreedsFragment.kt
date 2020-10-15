@@ -26,7 +26,10 @@ class DogBreedsFragment : Fragment(), DogBreedsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerFragmentComponent.builder().activityComponent((context as BaseActivity).activityComponent).build().inject(this)
+        DaggerFragmentComponent.builder().activityComponent(
+            (context as BaseActivity)
+                .activityComponent
+        ).build().inject(this)
     }
 
     override fun onCreateView(
