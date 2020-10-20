@@ -20,5 +20,4 @@ class ActivityModule constructor(private val activity: AppCompatActivity) {
     fun provideNavigator(): MainFragmentNavigator {
         return MainFragmentNavigator(activity.supportFragmentManager)
     }
-
 }

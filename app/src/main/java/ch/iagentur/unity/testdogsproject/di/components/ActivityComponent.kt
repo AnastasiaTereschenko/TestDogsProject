@@ -1,5 +1,6 @@
 package ch.iagentur.unity.testdogsproject.di.components
 
+import ch.iagentur.unity.testdogsproject.bd.AppDatabase
 import ch.iagentur.unity.testdogsproject.di.modules.ActivityModule
 import ch.iagentur.unity.testdogsproject.di.PerActivity
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
@@ -14,4 +15,5 @@ interface ActivityComponent {
 
     fun provideAppExecutor(): AppExecutors
     fun provideNetworkUtils(): NetworkUtils
+    fun provideDogDatabase(): AppDatabase
 }

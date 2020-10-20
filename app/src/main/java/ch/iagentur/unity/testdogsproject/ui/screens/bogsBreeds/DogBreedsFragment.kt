@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
-import ch.iagentur.unity.testdogsproject.data.source.Result
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 import javax.inject.Inject
 
@@ -71,7 +71,11 @@ class DogBreedsFragment : Fragment() {
                     displayDogBreeds(it.data)
                 }
                 is Result.Error -> {
-                    handleLoadingError()
+                    if (it.data != null) {
+                        displayDogBreeds(it.data)
+                    } else {
+                        handleLoadingError()
+                    }
                 }
             }
         })
@@ -94,7 +98,7 @@ class DogBreedsFragment : Fragment() {
         fdbDogBreedsRecyclerView.addItemDecoration(dividerItemDecoration)
     }
 
-     fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
+    private fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
             localDogBreeds.addAll(dogBreeds)
             setRefresh(false)
@@ -111,7 +115,7 @@ class DogBreedsFragment : Fragment() {
         }
     }
 
-     fun handleLoadingError() {
+    private fun handleLoadingError() {
         if (localDogBreeds.isEmpty()) {
             fdbErrorLoadingView.visibility = View.VISIBLE
             fdbProgressBar.visibility = View.GONE

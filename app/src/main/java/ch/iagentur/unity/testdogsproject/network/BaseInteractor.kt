@@ -17,7 +17,7 @@ open class BaseInteractor {
     suspend fun <T : Any> execute(call: suspend () -> Response<T>): Result<T>? {
         try {
             if (!networkUtils.isNetworkAvailable()) {
-               return Result.Error(NoInternetConnectionException())
+               return Result.Error(NoInternetConnectionException(), null)
             }
             val response = call.invoke()
             return if (response.isSuccessful) {
@@ -27,13 +27,14 @@ open class BaseInteractor {
                 if (responseBody != null) {
                     Result.Success(responseBody)
                 } else {
-                    Result.Error(NullableResponseException())
+                    Result.Error(NullableResponseException(), null)
                 }
             } else {
-                Result.Error(NetworkException(response.errorBody()?.string(), response.code()))
+                Result.Error(NetworkException(response.errorBody()?.string(), response.code()),
+                    null)
             }
         } catch (th: Throwable) {
-            return Result.Error(th)
+            return Result.Error(th, null)
         }
     }
 }

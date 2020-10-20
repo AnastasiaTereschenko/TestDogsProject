@@ -14,7 +14,6 @@ class DogBreedsViewModel @Inject constructor(
     private val repositoryRetriever: RepositoryRetriever,
     private val appExecutors: AppExecutors
 ) {
-
     companion object {
         const val DEFAULT_PAGE = 0
     }
@@ -33,7 +32,10 @@ class DogBreedsViewModel @Inject constructor(
                 }
                 is Result.Error -> {
                     dogBreedsLiveData.value = result
-                    Log.e("DogBreedsPresenter", "error {${result.exception}}")
+                    if (result.data!=null) {
+                        page++
+                    }
+                    Log.e("DogBreedsPresenter", "error {${result.data}}")
                 }
             }
         }
