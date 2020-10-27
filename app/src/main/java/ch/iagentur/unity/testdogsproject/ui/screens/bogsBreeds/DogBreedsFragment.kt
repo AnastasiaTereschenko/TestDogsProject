@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
-import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
+import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
@@ -46,31 +46,31 @@ class DogBreedsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
-            dogBreedsViewModel.getDogBreeds()
+            dogBreedsViewModel.updateDogBreeds()
         }
-        dogBreedsViewModel.getDogBreeds()
+        dogBreedsViewModel.updateDogBreeds()
         fdbErrorLoadingView.visibility = View.GONE
         fdbProgressBar.visibility = View.VISIBLE
         fdbDogBreedsSwipeRefresh.setOnRefreshListener {
             setRefresh(true)
             pagination.reset()
             dogBreedsViewModel.resetPage()
-            dogBreedsViewModel.getDogBreeds()
+            dogBreedsViewModel.updateDogBreeds()
             dogBreedsAdapter.refreshData(mutableListOf())
             localDogBreeds = mutableListOf()
         }
         fdbReloadImageView.setOnClickListener {
             fdbProgressBar.visibility = View.VISIBLE
             fdbErrorLoadingView.visibility = View.GONE
-            dogBreedsViewModel.getDogBreeds()
+            dogBreedsViewModel.updateDogBreeds()
             localDogBreeds.clear()
         }
         dogBreedsViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
-            when (it) {
-                is Result.Success -> {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
                     displayDogBreeds(it.data)
                 }
-                is Result.Error -> {
+                Resource.Status.ERROR -> {
                     if (it.data != null) {
                         displayDogBreeds(it.data)
                     } else {

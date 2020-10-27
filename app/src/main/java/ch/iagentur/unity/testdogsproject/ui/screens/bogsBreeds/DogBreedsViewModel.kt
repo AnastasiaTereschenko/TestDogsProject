@@ -1,47 +1,42 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import ch.iagentur.unity.testdogsproject.data.DogBreed
-import ch.iagentur.unity.testdogsproject.data.source.Result
-import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import ch.iagentur.unity.testdogsproject.network.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DogBreedsViewModel @Inject constructor(
-    private val repositoryRetriever: RepositoryRetriever,
-    private val appExecutors: AppExecutors
-) {
+    private val repositoryRetriever: RepositoryRetriever
+) : ViewModel() {
     companion object {
         const val DEFAULT_PAGE = 0
     }
 
     var page: Int = 0
-    val dogBreedsLiveData: MutableLiveData<Result<List<DogBreed>>> by lazy {
-        MutableLiveData<Result<List<DogBreed>>>()
-    }
+    var updateDogBreedsLiveData = MutableLiveData<String>()
 
-    fun getDogBreeds() {
-        GlobalScope.launch(appExecutors.uiContext) {
-            when (val result = repositoryRetriever.getDogBreeds(page)) {
-                is Result.Success -> {
-                    dogBreedsLiveData.value = Result.Success(result.data)
-                    page++
-                }
-                is Result.Error -> {
-                    dogBreedsLiveData.value = result
-                    if (result.data!=null) {
-                        page++
-                    }
-                    Log.e("DogBreedsPresenter", "error {${result.data}}")
-                }
+    val dogBreedsLiveData: LiveData<Resource<List<DogBreed>?>> =
+        Transformations.switchMap(updateDogBreedsLiveData) {
+            return@switchMap liveData {
+                emitSource(
+                    repositoryRetriever.getDogBreeds(page).flowOn(Dispatchers.IO).map { list ->
+                        if (list.status == Resource.Status.SUCCESS) {
+                            page++
+                        }
+                        return@map list
+                    }.asLiveData()
+                )
             }
         }
+    fun updateDogBreeds() {
+        updateDogBreedsLiveData.postValue("updateClients")
     }
-
     fun resetPage() {
         page = DEFAULT_PAGE
     }
 }
+

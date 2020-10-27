@@ -1,6 +1,7 @@
 package ch.iagentur.unity.testdogsproject.bd
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DogBreedDao {
