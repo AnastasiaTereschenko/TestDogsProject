@@ -73,6 +73,7 @@ class DogBreedsFragment : Fragment() {
                 Resource.Status.ERROR -> {
                     if (it.data != null) {
                         displayDogBreeds(it.data)
+                        pagination.lastPageLoaded()
                     } else {
                         handleLoadingError()
                     }

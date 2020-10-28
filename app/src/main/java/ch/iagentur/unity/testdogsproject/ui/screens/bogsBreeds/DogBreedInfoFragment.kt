@@ -14,6 +14,7 @@ import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
+import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -56,14 +57,16 @@ class DogBreedInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dogBreedInfoViewModel.getDogBreedInfo(breedId)
+        dogBreedInfoViewModel.updateDogBreeds(breedId)
         dogBreedInfoViewModel.dogBreedInfoLiveData.observe(this as LifecycleOwner, Observer {
-            when (it) {
-                is Result.Success -> {
-                    displayDogBreedInfo(it.data[0])
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    if (it.data !=null) {
+                        displayDogBreedInfo(it.data[0])
+                    }
                 }
-                is Result.Error -> {
-                    Log.e("DogBreedInfoFragment", "error {${it.exception}}")
+                Resource.Status.ERROR -> {
+                    Log.e("DogBreedInfoFragment", "error {${it.error}}")
                 }
             }
         })
