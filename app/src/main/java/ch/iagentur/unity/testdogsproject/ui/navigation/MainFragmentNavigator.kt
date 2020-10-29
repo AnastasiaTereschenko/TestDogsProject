@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.iagentur.unity.testdogsproject.R
+import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsBDFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class MainFragmentNavigator @Inject constructor(supportFragmentManager: Fragment
     }
 
     override fun createFragmentByTag(tag: String): Fragment {
-        return DogBreedsFragment()
+        return DogBreedsBDFragment()
 //            DOG_BREEDS -> DogBreedsFragment()
 //            else ->
     }

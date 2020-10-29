@@ -2,13 +2,16 @@ package ch.iagentur.unity.testdogsproject.network
 
 import android.util.Log
 import ch.iagentur.unity.testdogsproject.bd.AppDatabase
+import ch.iagentur.unity.testdogsproject.bd.DogBreedAllPageEntity
 import ch.iagentur.unity.testdogsproject.bd.DogBreedEntity
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
+import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -35,6 +38,36 @@ class RepositoryRetriever @Inject constructor(
         service = retrofit.create(DogsService::class.java)
     }
 
+    suspend fun loadBreeds(page: Int = 0) {
+        val gson = Gson()
+        val result = execute { service.getBreedsResult(page) }
+        withContext(appExecutors.ioContext) {
+            when (result) {
+                is Result.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        Log.d(
+                            "RepositoryRetriever", result.data.toString()
+                        )
+                        //delay(5000)
+                        val dogBreedAllPageEntity = DogBreedAllPageEntity()
+                        dogBreedAllPageEntity.page = page.toString()
+                        dogBreedAllPageEntity.jsonObject = gson.toJson(result.data)
+                        appDatabase.dogBreedAllPageDao()?.insert(dogBreedAllPageEntity)
+                        loadBreeds(page + 1)
+                    }
+                }
+                is Result.Error -> {
+                    return@withContext
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+    fun getBdFlow(): Flow<List<DogBreedAllPageEntity>>? {
+        return appDatabase.dogBreedAllPageDao()?.getAllDogBreeds()
+    }
 
     suspend fun getDogBreeds(page: Int): Flow<Resource<List<DogBreed>?>> {
         val gson = Gson()

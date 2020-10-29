@@ -3,6 +3,7 @@ package ch.iagentur.unity.testdogsproject.ui.navigation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsBDFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 
 abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
@@ -35,7 +36,7 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         doActionOnFragment(fragment) {
             if (fragment != null) {
                 it.add(containerId, fragment, tag)
-                if (fragment !is DogBreedsFragment) {
+                if (fragment !is DogBreedsBDFragment) {
                     it.addToBackStack(null)
                 }
             }

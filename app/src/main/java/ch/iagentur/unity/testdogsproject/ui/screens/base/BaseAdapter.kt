@@ -21,9 +21,12 @@ abstract class BaseAdapter<T>(var items: MutableList<T?>) :
     }
 
     fun addPage(pageList: List<T?>) {
+        items.clear()
         items.addAll(pageList)
         notifyDataSetChanged()
     }
+
+
 
     fun addProgressRow() {
         val itemInsertPosition = itemCount
@@ -46,8 +49,8 @@ abstract class BaseAdapter<T>(var items: MutableList<T?>) :
     }
 
     override fun getItemId(position: Int): Long {
-        return if (getItemViewType(position) == PROGRESS_ITEM_TYPE) PROGRESS_ITEM_TYPE.toLong()
-        else position.toLong()
+        //return if (getItemViewType(position) == PROGRESS_ITEM_TYPE) PROGRESS_ITEM_TYPE.toLong()
+        return position.toLong()
     }
 
     override fun getItemViewType(position: Int): Int {
