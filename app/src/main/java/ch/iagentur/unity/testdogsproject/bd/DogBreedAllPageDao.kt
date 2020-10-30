@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 interface DogBreedAllPageDao {
 
     @Query("SELECT * FROM dogbreedallpageentity")
-    fun getAllDogBreeds(): Flow<List<DogBreedAllPageEntity>>
+    fun getAllDogBreeds(): Flow<List<DogBreedAllPageEntity>>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(dogBreedAllPageEntity: DogBreedAllPageEntity?)
+    fun insert(dogBreedEntity: DogBreedAllPageEntity?)
 }

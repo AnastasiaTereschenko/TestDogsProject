@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
+import ch.iagentur.unity.testdogsproject.bd.DogBreedAllPageEntity
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.data.model.mapper.DogBreedMapper
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
@@ -18,28 +19,22 @@ import javax.inject.Inject
 class DogBreedsBDViewModel @Inject constructor(
     private val repositoryRetriever: RepositoryRetriever
 ) : ViewModel() {
-
-
-    private val mapper = DogBreedMapper()
-
+val mapper = DogBreedMapper()
     fun initLoading() {
-        GlobalScope.launch { repositoryRetriever.loadBreeds() }
+        GlobalScope.launch(Dispatchers.IO) {
+            repositoryRetriever.loadDogBreeds()
+        }
     }
 
-    val dogBreedsLiveData: LiveData<List<DogBreed>> = liveData {
-        val bdFlow = repositoryRetriever.getBdFlow() ?: return@liveData
-        emitSource(bdFlow.flowOn(Dispatchers.IO).map {
+    val dogBreedsLiveData: LiveData<List<DogBreed>?> = liveData {
+        val allDogBreeds = repositoryRetriever.getAllDogBreeds() ?: return@liveData
+        emitSource(allDogBreeds.flowOn(Dispatchers.IO).map { dogBreedsList ->
             val listRes = mutableListOf<DogBreed>()
-            it.forEach { dogBreedAllPageEntity ->
-                Log.d(
-                    "DogBreedsBDViewModel", dogBreedAllPageEntity.page
-                )
-                listRes.addAll(mapper.map(dogBreedAllPageEntity))
-            }
+            dogBreedsList.sortedBy { it.page.toInt() }.forEach {
+                Log.d("DogBreedsBDViewModel",it.page.toString())
+                listRes.addAll(mapper.map(it)) }
             return@map listRes
         }.asLiveData())
     }
 }
-
-
 

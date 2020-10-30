@@ -1,7 +1,6 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,6 @@ import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DogBreedsBDFragment : Fragment() {
@@ -46,8 +43,6 @@ class DogBreedsBDFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
-        fdbErrorLoadingView.visibility = View.GONE
-        fdbProgressBar.visibility = View.VISIBLE
         dogBreedsBDViewModel.initLoading()
         dogBreedsBDViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
             displayDogBreeds(it)
@@ -70,7 +65,6 @@ class DogBreedsBDFragment : Fragment() {
 
     private fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
-            Log.d("Size", dogBreeds.size.toString())
             dogBreedsAdapter.addPage(dogBreeds)
             fdbProgressBar?.visibility = View.GONE
             dogBreedsAdapter.openDogBreedInfoCallback = {
