@@ -2,11 +2,9 @@ package ch.iagentur.unity.testdogsproject.network
 
 import android.util.Log
 import ch.iagentur.unity.testdogsproject.bd.AppDatabase
-import ch.iagentur.unity.testdogsproject.bd.DogBreedAllPageEntity
 import ch.iagentur.unity.testdogsproject.bd.DogBreedEntity
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
-import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -35,32 +33,6 @@ class RepositoryRetriever @Inject constructor(
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         service = retrofit.create(DogsService::class.java)
-    }
-
-    suspend fun loadDogBreeds(page: Int = 0) {
-        val result = execute { service.getBreedsResult(page) }
-        val gson = Gson()
-        withContext(appExecutors.ioContext) {
-            when (result) {
-                is Result.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        val dogBreedAllPageEntity = DogBreedAllPageEntity()
-                        dogBreedAllPageEntity.page = page.toString()
-                        dogBreedAllPageEntity.jsonObject = gson.toJson(result.data)
-                        appDatabase.dogBreedAllPageDao()?.insert(dogBreedAllPageEntity)
-                        Log.d("RepositoryRetriever",result.data.toString())
-                        loadDogBreeds(page + 1)
-                    }
-                }
-                else -> {
-                    return@withContext
-                }
-            }
-        }
-    }
-
-    suspend fun getAllDogBreeds(): Flow<List<DogBreedAllPageEntity>>? {
-        return appDatabase.dogBreedAllPageDao()?.getAllDogBreeds()
     }
 
     suspend fun getDogBreeds(page: Int): Flow<Resource<List<DogBreed>?>> {
