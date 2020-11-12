@@ -1,19 +1,22 @@
 package ch.iagentur.unity.testdogsproject.ui.navigation
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
+import java.util.*
 
 abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
-    fun isFragmentExist(tag: String): Boolean {
-        return fragmentManager.findFragmentByTag(tag) != null
+    companion object {
+        const val STACK_FRAGMENTS = "STACK_FRAGMENTS"
     }
 
     fun getFragmentByTag(tag: String): Fragment? {
         return fragmentManager.findFragmentByTag(tag)
     }
-    protected var currentTag = ""
+
+    private var stack = Stack<String>()
 
     fun hideFragment(fragment: Fragment?) {
         doActionOnFragment(fragment) {
@@ -31,10 +34,10 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         }
     }
 
-    fun addFragment(containerId: Int, fragment: Fragment?, tag: String) {
+    fun addFragment(fragment: Fragment?, tag: String) {
         doActionOnFragment(fragment) {
             if (fragment != null) {
-                it.add(containerId, fragment, tag)
+                it.add(getContainerId(), fragment, tag)
                 if (fragment !is DogBreedsFragment) {
                     it.addToBackStack(null)
                 }
@@ -42,32 +45,49 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         }
     }
 
-    fun doActionOnFragment(fragment: Fragment?, action:(ft: FragmentTransaction)->Unit) {
+    private fun removeFragment(fragment: Fragment?) {
+        doActionOnFragment(fragment) {
+            if (fragment != null) {
+                it.remove(fragment)
+            }
+        }
+    }
+
+    fun onBackNavigation(): Boolean {
+        return if (stack.size == 1) {
+            false
+        } else {
+            removeFragment(getFragmentByTag(stack.pop()))
+            showFragment(getFragmentByTag(stack.peek()))
+            true
+
+        }
+    }
+
+    fun doActionOnFragment(fragment: Fragment?, action: (ft: FragmentTransaction) -> Unit) {
         if (fragment == null) {
             return
         }
-       val ft = fragmentManager.beginTransaction()
+        val ft = fragmentManager.beginTransaction()
         action(ft)
         ft.commit()
     }
 
-    fun navigateToFragment(tag: String, containerId: Int = getContainerId()) {
-        hideFragment(getFragmentByTag(currentTag))
-        currentTag = tag
-        if (isFragmentExist(tag)) {
-            showFragment(getFragmentByTag(currentTag))
-        } else {
-            addFragment(containerId, createFragmentByTag(currentTag), currentTag )
+    fun navigateToFragment(fragment: Fragment?, tag: String) {
+        if (stack.size > 0) {
+            hideFragment(getFragmentByTag(stack.peek()))
         }
+        stack.add(tag)
+        addFragment(fragment, tag)
     }
 
-    fun navigateToFragment(fragment: Fragment?, tag: String, containerId: Int = getContainerId()) {
-        hideFragment(getFragmentByTag(currentTag))
-        currentTag = tag
-        addFragment(containerId, fragment, currentTag)
+    fun onSaveState(bundle: Bundle) {
+        bundle.putSerializable(STACK_FRAGMENTS, stack)
     }
 
-    abstract fun createFragmentByTag(tag: String): Fragment
+    fun onRestoreState(bundle: Bundle) {
+        stack = bundle.getSerializable(STACK_FRAGMENTS) as Stack<String>
+    }
 
     abstract fun getContainerId(): Int
 }

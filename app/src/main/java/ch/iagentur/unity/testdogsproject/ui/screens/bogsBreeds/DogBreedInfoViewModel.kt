@@ -1,9 +1,6 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
@@ -15,7 +12,7 @@ import javax.inject.Inject
 
 class DogBreedInfoViewModel @Inject constructor(
     private val repositoryRetriever: RepositoryRetriever
-) {
+) : ViewModel() {
     var updateDogBreedsLiveData = MutableLiveData<String>()
     var id = 0
 

@@ -3,6 +3,7 @@ package ch.iagentur.unity.testdogsproject.ui.navigation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.iagentur.unity.testdogsproject.R
+import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedInfoFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 import javax.inject.Inject
 
@@ -14,17 +15,11 @@ class MainFragmentNavigator @Inject constructor(supportFragmentManager: Fragment
     }
 
     fun navigateToDogBreedsFragment () {
-        navigateToFragment(DOG_BREEDS, getContainerId())
+        navigateToFragment(DogBreedsFragment(), DOG_BREEDS)
     }
 
-    fun navigateToDogBreedInfoFragment (fragment: Fragment) {
-        navigateToFragment(fragment, DOG_BREED_INFO, getContainerId())
-    }
-
-    override fun createFragmentByTag(tag: String): Fragment {
-        return DogBreedsFragment()
-//            DOG_BREEDS -> DogBreedsFragment()
-//            else ->
+    fun navigateToDogBreedInfoFragment (id: Int) {
+        navigateToFragment(DogBreedInfoFragment.newInstance(id), DOG_BREED_INFO)
     }
 
     override fun getContainerId(): Int {

@@ -107,9 +107,8 @@ class DogBreedsFragment : Fragment() {
             dogBreedsAdapter.addPage(dogBreeds)
             fdbProgressBar?.visibility = View.GONE
             dogBreedsAdapter.openDogBreedInfoCallback = {
-                (activity as MainActivity).mainScreenFragmentNavigator.navigateToDogBreedInfoFragment(
-                    DogBreedInfoFragment.newInstance(it)
-                )
+                (activity as MainActivity).mainScreenNavigator
+                    .navigateToDogBreedInfoFragment(it)
             }
         } else {
             pagination.lastPageLoaded()

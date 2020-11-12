@@ -8,15 +8,15 @@ import ch.iagentur.unity.testdogsproject.di.components.DaggerActivityComponent
 import ch.iagentur.unity.testdogsproject.di.modules.ActivityModule
 
 open class BaseActivity : AppCompatActivity()  {
-    lateinit var activityComponent: ActivityComponent
+     var activityComponent: ActivityComponent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val dogBreedsApplication = this.applicationContext as DogBreedsApplication
-        super.onCreate(savedInstanceState)
         activityComponent = DaggerActivityComponent.builder().appComponent(dogBreedsApplication.appComponent).activityModule(
             ActivityModule(
                 this
             )
         ).build()
+        super.onCreate(savedInstanceState)
     }
 }
