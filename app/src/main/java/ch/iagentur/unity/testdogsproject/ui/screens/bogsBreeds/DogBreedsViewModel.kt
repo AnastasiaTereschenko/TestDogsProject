@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
+import ch.iagentur.unity.testdogsproject.network.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -17,24 +18,36 @@ class DogBreedsViewModel @Inject constructor(
     }
 
     var page: Int = 0
+    var localDogBreeds: MutableList<DogBreed> = mutableListOf()
     var updateDogBreedsLiveData = MutableLiveData<String>()
 
     val dogBreedsLiveData: LiveData<Resource<List<DogBreed>?>> =
         Transformations.switchMap(updateDogBreedsLiveData) {
             return@switchMap liveData {
                 emitSource(
-                    repositoryRetriever.getDogBreeds(page).flowOn(Dispatchers.IO).map { list ->
-                        if (list.status == Resource.Status.SUCCESS) {
+                    repositoryRetriever.getDogBreeds(page).flowOn(Dispatchers.IO).map { resource ->
+                        if (resource.status == Resource.Status.SUCCESS) {
                             page++
+                            if (resource.data != null) {
+                                localDogBreeds.addAll(resource.data.toMutableList())
+                                return@map resource.map { localDogBreeds }
+                            }
                         }
-                        return@map list
+                        return@map resource
                     }.asLiveData()
                 )
             }
         }
+
+    override fun onCleared() {
+        super.onCleared()
+        localDogBreeds.clear()
+    }
+
     fun updateDogBreeds() {
         updateDogBreedsLiveData.postValue("updateClients")
     }
+
     fun resetPage() {
         page = DEFAULT_PAGE
     }

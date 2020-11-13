@@ -21,6 +21,7 @@ abstract class BaseAdapter<T>(var items: MutableList<T?>) :
     }
 
     fun addPage(pageList: List<T?>) {
+        items.clear()
         items.addAll(pageList)
         notifyDataSetChanged()
     }

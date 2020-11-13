@@ -1,14 +1,18 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import ch.iagentur.unity.testdogsproject.DogBreedsApplication
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
@@ -17,14 +21,17 @@ import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
-import javax.inject.Inject
 
 class DogBreedsFragment : Fragment() {
-    @Inject
-    lateinit var dogBreedsViewModel: DogBreedsViewModel
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
-    var localDogBreeds: MutableList<DogBreed?> = mutableListOf()
+    private var dataWasLoading = false
+
+    private lateinit var vmFactory: ViewModelProvider.Factory
+
+    val dogBreedsViewModel by viewModels<DogBreedsViewModel> {
+        vmFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +39,8 @@ class DogBreedsFragment : Fragment() {
             (context as BaseActivity)
                 .activityComponent
         ).build().inject(this)
+        val dogBreedsApplication = activity?.applicationContext as DogBreedsApplication
+        vmFactory = dogBreedsApplication.appComponent.getViewModelFactory()
     }
 
     override fun onCreateView(
@@ -44,11 +53,14 @@ class DogBreedsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("DogBreedsFragment","onViewCreated")
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
             dogBreedsViewModel.updateDogBreeds()
         }
-        dogBreedsViewModel.updateDogBreeds()
+        if (savedInstanceState == null) {
+            dogBreedsViewModel.updateDogBreeds()
+        }
         fdbErrorLoadingView.visibility = View.GONE
         fdbProgressBar.visibility = View.VISIBLE
         fdbDogBreedsSwipeRefresh.setOnRefreshListener {
@@ -57,13 +69,11 @@ class DogBreedsFragment : Fragment() {
             dogBreedsViewModel.resetPage()
             dogBreedsViewModel.updateDogBreeds()
             dogBreedsAdapter.refreshData(mutableListOf())
-            localDogBreeds = mutableListOf()
         }
         fdbReloadImageView.setOnClickListener {
             fdbProgressBar.visibility = View.VISIBLE
             fdbErrorLoadingView.visibility = View.GONE
             dogBreedsViewModel.updateDogBreeds()
-            localDogBreeds.clear()
         }
         dogBreedsViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
             when (it.status) {
@@ -89,11 +99,11 @@ class DogBreedsFragment : Fragment() {
     private fun initAdapter() {
         dogBreedsAdapter =
             DogBreedsAdapter(
-                context!!
+                requireContext()
             )
-        val layoutManager = LinearLayoutManager(context!!)
+        val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
-            DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         fdbDogBreedsRecyclerView.layoutManager = layoutManager
         fdbDogBreedsRecyclerView.adapter = dogBreedsAdapter
         fdbDogBreedsRecyclerView.addItemDecoration(dividerItemDecoration)
@@ -101,7 +111,7 @@ class DogBreedsFragment : Fragment() {
 
     private fun displayDogBreeds(dogBreeds: List<DogBreed>?) {
         if (dogBreeds != null && dogBreeds.isNotEmpty()) {
-            localDogBreeds.addAll(dogBreeds)
+            dataWasLoading = true
             setRefresh(false)
             pagination.finishLoadMoreItems()
             dogBreedsAdapter.addPage(dogBreeds)
@@ -116,7 +126,7 @@ class DogBreedsFragment : Fragment() {
     }
 
     private fun handleLoadingError() {
-        if (localDogBreeds.isEmpty()) {
+        if (!dataWasLoading) {
             fdbErrorLoadingView.visibility = View.VISIBLE
             fdbProgressBar.visibility = View.GONE
         } else {
