@@ -43,7 +43,7 @@ class DogBreedInfoFragment : Fragment() {
         DaggerFragmentComponent.builder().activityComponent((context as BaseActivity)
             .activityComponent).build().inject(this)
         if (arguments != null) {
-            breedId = arguments!!.getInt(BREED_ID)
+            breedId = requireArguments().getInt(BREED_ID)
         }
     }
 
@@ -90,7 +90,7 @@ class DogBreedInfoFragment : Fragment() {
         context?.let {
             Glide.with(it).load(dogBreedInfo.url).apply(
                 RequestOptions()
-                    .placeholder((ContextCompat.getDrawable(context!!, R.drawable.no_image)))
+                    .placeholder((ContextCompat.getDrawable(requireContext(), R.drawable.no_image)))
                 .dontAnimate())
                 .into(fdbiDogBreedImageView)
         }
