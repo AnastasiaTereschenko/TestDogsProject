@@ -7,6 +7,7 @@ import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
+import kotlin.jvm.Throws
 
 
 class FragmentTestRule<A : MainActivity?, F : Fragment?>(

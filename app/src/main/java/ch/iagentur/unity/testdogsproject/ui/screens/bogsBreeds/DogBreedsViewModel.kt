@@ -5,6 +5,7 @@ import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.network.map
+import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -45,6 +46,9 @@ class DogBreedsViewModel @Inject constructor(
     }
 
     fun updateDogBreeds() {
+        if (EspressoIdlingResource.idlingResource.isIdleNow) {
+            EspressoIdlingResource.increment()
+        }
         updateDogBreedsLiveData.postValue("updateClients")
     }
 

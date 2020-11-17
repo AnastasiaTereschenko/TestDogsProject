@@ -12,9 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
-import ch.iagentur.unity.testdogsproject.data.source.Result
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.network.Resource
+import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
+import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource1
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -61,8 +62,14 @@ class DogBreedInfoFragment : Fragment() {
         dogBreedInfoViewModel.dogBreedInfoLiveData.observe(this as LifecycleOwner, Observer {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
-                    if (it.data !=null) {
+                    if (it.data != null) {
                         displayDogBreedInfo(it.data[0])
+                    }
+                    if (!EspressoIdlingResource.idlingResource.isIdleNow) {
+//                        Handler().postDelayed({
+//                            Log.d("DogBreedsFragmentTest", "decr ${activity.hashCode()}")
+                        EspressoIdlingResource.decrement()
+//                        },3000)
                     }
                 }
                 Resource.Status.ERROR -> {

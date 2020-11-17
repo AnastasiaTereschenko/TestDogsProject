@@ -1,6 +1,7 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
 import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.network.Resource
+import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
@@ -79,6 +81,12 @@ class DogBreedsFragment : Fragment() {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     displayDogBreeds(it.data)
+                    if (!EspressoIdlingResource.idlingResource.isIdleNow) {
+//                        Handler().postDelayed({
+//                            Log.d("DogBreedsFragmentTest", "decr ${activity.hashCode()}")
+                            EspressoIdlingResource.decrement()
+//                        },3000)
+                    }
                 }
                 Resource.Status.ERROR -> {
                     if (it.data != null) {
