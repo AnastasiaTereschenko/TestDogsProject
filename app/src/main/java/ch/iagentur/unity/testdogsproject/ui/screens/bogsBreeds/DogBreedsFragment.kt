@@ -1,7 +1,6 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -82,10 +81,7 @@ class DogBreedsFragment : Fragment() {
                 Resource.Status.SUCCESS -> {
                     displayDogBreeds(it.data)
                     if (!EspressoIdlingResource.idlingResource.isIdleNow) {
-//                        Handler().postDelayed({
-//                            Log.d("DogBreedsFragmentTest", "decr ${activity.hashCode()}")
-                            EspressoIdlingResource.decrement()
-//                        },3000)
+                        EspressoIdlingResource.decrement()
                     }
                 }
                 Resource.Status.ERROR -> {
