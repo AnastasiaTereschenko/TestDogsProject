@@ -1,10 +1,14 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.ui.navigation.MainFragmentNavigator
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -15,21 +19,17 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         activityComponent?.inject(this)
-        if (savedInstanceState == null) {
-            mainScreenNavigator.navigateToDogBreedsFragment()
-        } else {
-            mainScreenNavigator.onRestoreState(savedInstanceState)
-        }
+        Navigation.createNavigateOnClickListener(R.id.nav_host_fragment)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mainScreenNavigator.onSaveState(outState)
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        mainScreenNavigator.onSaveState(outState)
+//    }
 
-    override fun onBackPressed() {
-        if (!mainScreenNavigator.onBackNavigation()) {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (!mainScreenNavigator.onBackNavigation()) {
+//            super.onBackPressed()
+//        }
+//    }
 }

@@ -22,7 +22,7 @@ class MainFragmentNavigator @Inject constructor(supportFragmentManager: Fragment
         navigateToFragment(DogBreedInfoFragment.newInstance(id), DOG_BREED_INFO)
     }
 
-    override fun getContainerId(): Int {
-        return R.id.amContainer
-    }
+//    override fun getContainerId(): Int {
+//        return R.id.amContainer
+//    }
 }

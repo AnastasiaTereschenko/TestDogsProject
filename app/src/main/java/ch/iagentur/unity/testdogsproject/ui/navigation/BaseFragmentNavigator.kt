@@ -37,7 +37,7 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
     fun addFragment(fragment: Fragment?, tag: String) {
         doActionOnFragment(fragment) {
             if (fragment != null) {
-                it.add(getContainerId(), fragment, tag)
+                it.add(0, fragment, tag)
                 if (fragment !is DogBreedsFragment) {
                     it.addToBackStack(null)
                 }
@@ -89,5 +89,5 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         stack = bundle.getSerializable(STACK_FRAGMENTS) as Stack<String>
     }
 
-    abstract fun getContainerId(): Int
+    //abstract fun getContainerId(): Int
 }

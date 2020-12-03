@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/android_navigation"
+    app:startDestination = "@+id/dog_breeds">
+    <fragment
+        android:id="@+id/dog_breeds"
+        android:name="ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment"
+        tools:layout="@layout/fragment_bog_breeds">
+
+        <action
+            android:id="@+id/action_goto1"
+            app:destination="@id/dog_breed_info">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dog_breed_info"
+        android:name="ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedInfoFragment"
+        tools:layout="@layout/fragment_dog_breed_info">
+
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+</navigation>

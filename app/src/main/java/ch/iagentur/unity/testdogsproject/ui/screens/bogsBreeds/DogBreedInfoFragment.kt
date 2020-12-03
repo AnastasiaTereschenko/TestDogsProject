@@ -43,9 +43,6 @@ class DogBreedInfoFragment : Fragment() {
         super.onCreate(savedInstanceState)
         DaggerFragmentComponent.builder().activityComponent((context as BaseActivity)
             .activityComponent).build().inject(this)
-        if (arguments != null) {
-            breedId = requireArguments().getInt(BREED_ID)
-        }
     }
 
     override fun onCreateView(
@@ -58,6 +55,12 @@ class DogBreedInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args : DogBreedInfoFragmentArgs? = arguments?.let{
+            DogBreedInfoFragmentArgs.fromBundle(it)
+        }
+        args?.let {
+            breedId = it.id
+        }
         dogBreedInfoViewModel.updateDogBreeds(breedId)
         dogBreedInfoViewModel.dogBreedInfoLiveData.observe(this as LifecycleOwner, Observer {
             when (it.status) {
@@ -79,6 +82,8 @@ class DogBreedInfoFragment : Fragment() {
         })
         fdbiProgressBar.visibility = View.VISIBLE
     }
+
+
 
     @SuppressLint("SetTextI18n")
     fun displayDogBreedInfo(dogBreedInfo: DogBreedInfo) {

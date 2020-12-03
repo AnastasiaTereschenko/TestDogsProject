@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.DogBreedsApplication
@@ -121,12 +123,19 @@ class DogBreedsFragment : Fragment() {
             dogBreedsAdapter.addPage(dogBreeds)
             fdbProgressBar?.visibility = View.GONE
             dogBreedsAdapter.openDogBreedInfoCallback = {
-                (activity as MainActivity).mainScreenNavigator
-                    .navigateToDogBreedInfoFragment(it)
+                view?.let { it1 -> sendDogBreedId(it1, it) }
+
+//                (activity as MainActivity).mainScreenNavigator
+//                    .navigateToDogBreedInfoFragment(it)
             }
         } else {
             pagination.lastPageLoaded()
         }
+    }
+
+    fun sendDogBreedId(view: View, id:Int) {
+        val direction = DogBreedsFragmentDirections.actionGoto1(id)
+        Navigation.findNavController(view).navigate(direction)
     }
 
     private fun handleLoadingError() {
