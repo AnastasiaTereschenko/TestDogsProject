@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -22,8 +23,8 @@ import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
-import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
+
 
 class DogBreedsFragment : Fragment() {
     lateinit var pagination: RecyclerViewPagination
@@ -56,11 +57,15 @@ class DogBreedsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("DogBreedsFragment","onViewCreated")
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
             dogBreedsViewModel.updateDogBreeds()
         }
+        val liveData: MutableLiveData<String>? = findNavController()
+            .currentBackStackEntry?.savedStateHandle?.getLiveData("key")
+        liveData?.observe(viewLifecycleOwner, {
+            Log.d("DogBreedsFragment", it)
+        })
         if (savedInstanceState == null) {
             dogBreedsViewModel.updateDogBreeds()
         }
@@ -124,16 +129,13 @@ class DogBreedsFragment : Fragment() {
             fdbProgressBar?.visibility = View.GONE
             dogBreedsAdapter.openDogBreedInfoCallback = {
                 view?.let { it1 -> sendDogBreedId(it1, it) }
-
-//                (activity as MainActivity).mainScreenNavigator
-//                    .navigateToDogBreedInfoFragment(it)
             }
         } else {
             pagination.lastPageLoaded()
         }
     }
 
-    fun sendDogBreedId(view: View, id:Int) {
+    fun sendDogBreedId(view: View, id: Int) {
         val direction = DogBreedsFragmentDirections.actionGoto1(id)
         Navigation.findNavController(view).navigate(direction)
     }
