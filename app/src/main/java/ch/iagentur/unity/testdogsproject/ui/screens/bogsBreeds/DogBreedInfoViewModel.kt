@@ -7,13 +7,15 @@ import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource1
+import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DogBreedInfoViewModel @Inject constructor(
-    private val repositoryRetriever: RepositoryRetriever
+    private val repositoryRetriever: RepositoryRetriever,
+    val router: Router
 ) : ViewModel() {
     var updateDogBreedsLiveData = MutableLiveData<String>()
     var id = 0
@@ -32,5 +34,9 @@ class DogBreedInfoViewModel @Inject constructor(
         }
         this.id = id
         updateDogBreedsLiveData.postValue("updateClients")
+    }
+
+    fun onBackPressed() {
+        router.exit()
     }
 }

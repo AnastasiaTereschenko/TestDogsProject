@@ -6,13 +6,16 @@ import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.network.map
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
+import ch.iagentur.unity.testdogsproject.ui.screens.Screens.DogBreedInfo
+import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DogBreedsViewModel @Inject constructor(
-    private val repositoryRetriever: RepositoryRetriever
+    private val repositoryRetriever: RepositoryRetriever,
+    val router: Router
 ) : ViewModel() {
     companion object {
         const val DEFAULT_PAGE = 0
@@ -54,6 +57,10 @@ class DogBreedsViewModel @Inject constructor(
 
     fun resetPage() {
         page = DEFAULT_PAGE
+    }
+
+    fun navigateToDogBreedsInfoFragment(id: Int) {
+        router.navigateTo(DogBreedInfo(id))
     }
 }
 

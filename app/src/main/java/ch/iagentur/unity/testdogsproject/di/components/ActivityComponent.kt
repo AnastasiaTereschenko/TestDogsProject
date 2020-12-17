@@ -6,6 +6,8 @@ import ch.iagentur.unity.testdogsproject.di.PerActivity
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import ch.iagentur.unity.testdogsproject.misc.utils.NetworkUtils
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import dagger.Component
 
 @PerActivity
@@ -16,4 +18,7 @@ interface ActivityComponent {
     fun provideAppExecutor(): AppExecutors
     fun provideNetworkUtils(): NetworkUtils
     fun provideDogDatabase(): AppDatabase
+    fun provideRouter(): Router
+    fun provideNavigationHolder(): NavigatorHolder
+
 }

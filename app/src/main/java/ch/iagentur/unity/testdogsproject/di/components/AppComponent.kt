@@ -7,6 +7,8 @@ import ch.iagentur.unity.testdogsproject.di.modules.AppModule
 import ch.iagentur.unity.testdogsproject.di.modules.ViewModelModule
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import ch.iagentur.unity.testdogsproject.misc.utils.NetworkUtils
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,5 +20,7 @@ interface AppComponent {
     fun provideAppExecutor(): AppExecutors
     fun provideNetworkUtils(): NetworkUtils
     fun provideDogDatabase(): AppDatabase
+    fun provideRouter(): Router
+    fun provideNavigationHolder(): NavigatorHolder
     fun getViewModelFactory(): ViewModelProvider.Factory
 }

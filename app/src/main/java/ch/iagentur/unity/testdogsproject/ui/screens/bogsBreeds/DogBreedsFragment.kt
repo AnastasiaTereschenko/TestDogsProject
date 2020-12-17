@@ -20,10 +20,11 @@ import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
+import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 
-class DogBreedsFragment : Fragment() {
+class DogBreedsFragment : BaseFragment() {
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
     private var dataWasLoading = false
@@ -121,8 +122,7 @@ class DogBreedsFragment : Fragment() {
             dogBreedsAdapter.addPage(dogBreeds)
             fdbProgressBar?.visibility = View.GONE
             dogBreedsAdapter.openDogBreedInfoCallback = {
-                (activity as MainActivity).mainScreenNavigator
-                    .navigateToDogBreedInfoFragment(it)
+                dogBreedsViewModel.navigateToDogBreedsInfoFragment(it)
             }
         } else {
             pagination.lastPageLoaded()

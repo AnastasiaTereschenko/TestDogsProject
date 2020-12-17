@@ -4,6 +4,7 @@ import android.app.Application
 import ch.iagentur.unity.testdogsproject.di.components.AppComponent
 import ch.iagentur.unity.testdogsproject.di.components.DaggerAppComponent
 import ch.iagentur.unity.testdogsproject.di.modules.AppModule
+import com.github.terrakok.cicerone.Cicerone
 
 class DogBreedsApplication: Application() {
     lateinit var appComponent: AppComponent
