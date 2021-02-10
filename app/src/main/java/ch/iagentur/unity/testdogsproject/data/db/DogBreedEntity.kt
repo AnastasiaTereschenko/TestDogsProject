@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.bd
+package ch.iagentur.unity.testdogsproject.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

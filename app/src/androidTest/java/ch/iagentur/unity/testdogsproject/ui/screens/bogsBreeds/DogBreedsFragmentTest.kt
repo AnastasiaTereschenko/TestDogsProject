@@ -1,7 +1,6 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import android.app.Activity
-import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
@@ -12,7 +11,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import ch.iagentur.unity.testdogsproject.R
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
+import ch.iagentur.unity.testdogsproject.misc.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import ch.iagentur.unity.testdogsproject.ui.viewHolder.DogBreedsViewHolder
 import org.junit.After

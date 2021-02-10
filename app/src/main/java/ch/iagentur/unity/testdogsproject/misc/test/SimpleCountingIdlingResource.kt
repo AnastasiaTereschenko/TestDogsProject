@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.test
+package ch.iagentur.unity.testdogsproject.misc.test
 
 import androidx.test.espresso.IdlingResource
 import java.util.concurrent.atomic.AtomicInteger

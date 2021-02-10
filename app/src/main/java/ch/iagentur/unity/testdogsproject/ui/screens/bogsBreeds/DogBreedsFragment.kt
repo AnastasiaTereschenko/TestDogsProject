@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.DogBreedsApplication
 import ch.iagentur.unity.testdogsproject.R
-import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
 import ch.iagentur.unity.testdogsproject.network.Resource
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
+import ch.iagentur.unity.testdogsproject.misc.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity

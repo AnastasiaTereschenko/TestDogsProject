@@ -1,12 +1,9 @@
 package ch.iagentur.unity.testdogsproject.network
 
-import ch.iagentur.unity.testdogsproject.data.DogBreed
-import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
-import kotlinx.coroutines.Deferred
-import retrofit2.Call
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
+import ch.iagentur.unity.testdogsproject.data.network.DogBreedInfo
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 

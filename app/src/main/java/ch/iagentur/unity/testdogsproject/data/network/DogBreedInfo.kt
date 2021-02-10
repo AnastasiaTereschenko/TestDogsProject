@@ -1,4 +1,6 @@
-package ch.iagentur.unity.testdogsproject.data
+package ch.iagentur.unity.testdogsproject.data.network
+
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
 
 data class DogBreedInfo(
     val breeds: List<DogBreed>,

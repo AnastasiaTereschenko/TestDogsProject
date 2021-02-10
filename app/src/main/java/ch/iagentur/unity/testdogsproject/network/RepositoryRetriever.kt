@@ -2,9 +2,9 @@ package ch.iagentur.unity.testdogsproject.network
 
 import android.util.Log
 import ch.iagentur.unity.testdogsproject.bd.AppDatabase
-import ch.iagentur.unity.testdogsproject.bd.DogBreedEntity
-import ch.iagentur.unity.testdogsproject.data.DogBreed
-import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
+import ch.iagentur.unity.testdogsproject.data.db.DogBreedEntity
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
+import ch.iagentur.unity.testdogsproject.data.network.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.misc.coroutines.AppExecutors
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

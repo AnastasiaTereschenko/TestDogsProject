@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.data
+package ch.iagentur.unity.testdogsproject.data.network
 
 import com.google.gson.annotations.SerializedName
 

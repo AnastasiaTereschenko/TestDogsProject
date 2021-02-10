@@ -1,9 +1,8 @@
 package ch.iagentur.unity.testdogsproject
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.getOrAwaitValue
@@ -11,9 +10,7 @@ import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsViewMode
 import com.carlosgub.coroutines.utils.CoroutinesRule
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import org.junit.Before

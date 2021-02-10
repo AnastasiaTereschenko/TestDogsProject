@@ -10,9 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ch.iagentur.unity.testdogsproject.R
-import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
+import ch.iagentur.unity.testdogsproject.data.network.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.network.Resource
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
+import ch.iagentur.unity.testdogsproject.misc.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

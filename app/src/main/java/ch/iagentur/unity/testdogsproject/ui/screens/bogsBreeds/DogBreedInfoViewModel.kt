@@ -1,12 +1,10 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 
 import androidx.lifecycle.*
-import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
-import ch.iagentur.unity.testdogsproject.data.source.Result
+import ch.iagentur.unity.testdogsproject.data.network.DogBreedInfo
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource1
+import ch.iagentur.unity.testdogsproject.misc.test.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map

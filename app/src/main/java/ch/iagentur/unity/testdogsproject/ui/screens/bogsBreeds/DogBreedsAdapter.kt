@@ -3,7 +3,7 @@ package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.iagentur.unity.testdogsproject.data.DogBreed
+import ch.iagentur.unity.testdogsproject.data.network.DogBreed
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseAdapter
 import ch.iagentur.unity.testdogsproject.ui.viewHolder.DogBreedsViewHolder
 
