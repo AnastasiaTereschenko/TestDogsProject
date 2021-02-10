@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -15,15 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.DogBreedsApplication
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreed
-import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
 import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
-import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
+import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
 
-class DogBreedsFragment : Fragment() {
+class DogBreedsFragment : BaseFragment() {
     lateinit var pagination: RecyclerViewPagination
     lateinit var dogBreedsAdapter: DogBreedsAdapter
     private var dataWasLoading = false
@@ -36,10 +34,7 @@ class DogBreedsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerFragmentComponent.builder().activityComponent(
-            (context as BaseActivity)
-                .activityComponent
-        ).build().inject(this)
+        fragmentComponent?.inject(this)
         val dogBreedsApplication = activity?.applicationContext as DogBreedsApplication
         vmFactory = dogBreedsApplication.appComponent.getViewModelFactory()
     }
@@ -54,7 +49,7 @@ class DogBreedsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("DogBreedsFragment","onViewCreated")
+        Log.d("DogBreedsFragment", "onViewCreated")
         initAdapter()
         pagination = RecyclerViewPagination(fdbDogBreedsRecyclerView) {
             dogBreedsViewModel.updateDogBreeds()

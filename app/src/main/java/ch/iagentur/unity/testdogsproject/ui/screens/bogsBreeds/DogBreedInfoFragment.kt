@@ -7,22 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.data.DogBreedInfo
-import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource
-import ch.iagentur.unity.testdogsproject.test.EspressoIdlingResource1
-import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
+import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_dog_breed_info.*
 import javax.inject.Inject
 
-class DogBreedInfoFragment : Fragment() {
+class DogBreedInfoFragment : BaseFragment() {
     @Inject
     lateinit var dogBreedInfoViewModel: DogBreedInfoViewModel
 
@@ -41,8 +38,7 @@ class DogBreedInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerFragmentComponent.builder().activityComponent((context as BaseActivity)
-            .activityComponent).build().inject(this)
+        fragmentComponent?.inject(this)
         if (arguments != null) {
             breedId = requireArguments().getInt(BREED_ID)
         }

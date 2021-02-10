@@ -60,7 +60,6 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
             removeFragment(getFragmentByTag(stack.pop()))
             showFragment(getFragmentByTag(stack.peek()))
             true
-
         }
     }
 

@@ -1,7 +1,6 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import ch.iagentur.unity.testdogsproject.R
 import ch.iagentur.unity.testdogsproject.ui.navigation.MainFragmentNavigator
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseActivity
@@ -29,7 +28,7 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (!mainScreenNavigator.onBackNavigation()) {
-            super.onBackPressed()
+            finish()
         }
     }
 }
