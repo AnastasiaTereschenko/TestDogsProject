@@ -1,34 +1,22 @@
 package ch.iagentur.unity.testdogsproject.ui.screens.base
 
 import android.content.Context
+import android.os.Bundle
 import androidx.fragment.app.Fragment
+import ch.iagentur.unity.testdogsproject.di.components.ActivityComponent
+import ch.iagentur.unity.testdogsproject.di.components.DaggerFragmentComponent
+import ch.iagentur.unity.testdogsproject.di.components.FragmentComponent
 import ch.iagentur.unity.testdogsproject.ui.common.ChainHolder
 import java.lang.ref.WeakReference
 
 open class BaseFragment: Fragment() {
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    var fragmentComponent: FragmentComponent? = null
 
-        val activity = activity
-        if (activity is ChainHolder) {
-            (activity as ChainHolder).chain.add(WeakReference<Fragment>(this))
-        }
-    }
-
-    override fun onDetach() {
-        val activity = activity
-        if (activity is ChainHolder) {
-            val chain = (activity as ChainHolder).chain
-            val it = chain.iterator()
-            while (it.hasNext()) {
-                val fragmentReference = it.next()
-                val fragment = fragmentReference.get()
-                if (fragment != null && fragment === this) {
-                    it.remove()
-                    break
-                }
-            }
-        }
-        super.onDetach()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        fragmentComponent =  DaggerFragmentComponent.builder().activityComponent(
+            (context as BaseActivity)
+                .activityComponent
+        ).build()
+        super.onCreate(savedInstanceState)
     }
 }
