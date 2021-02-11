@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (!mainScreenNavigator.onBackNavigation()) {
-            finish()
+            super.onBackPressed()
         }
     }
 }

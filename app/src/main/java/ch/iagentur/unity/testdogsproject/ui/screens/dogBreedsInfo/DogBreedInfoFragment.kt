@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.dogBreedsInfo
 
 import android.annotation.SuppressLint
 import android.os.Bundle

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsFragment
 import java.util.*
 
 abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
@@ -38,9 +37,6 @@ abstract class BaseFragmentNavigator(val fragmentManager: FragmentManager) {
         doActionOnFragment(fragment) {
             if (fragment != null) {
                 it.add(getContainerId(), fragment, tag)
-                if (fragment !is DogBreedsFragment) {
-                    it.addToBackStack(null)
-                }
             }
         }
     }

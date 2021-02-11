@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.dogBreedsInfo
 
 import androidx.lifecycle.*
 import ch.iagentur.unity.testdogsproject.data.network.DogBreedInfo
