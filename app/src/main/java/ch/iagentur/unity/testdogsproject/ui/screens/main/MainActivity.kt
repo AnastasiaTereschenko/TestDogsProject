@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         activityComponent?.inject(this)
-        navigator.applyCommands(arrayOf<Command>(Replace(DogBreeds())))
+        router.navigateTo(DogBreeds())
     }
 
     override fun onResumeFragments() {
