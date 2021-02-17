@@ -9,6 +9,7 @@ import ch.iagentur.unity.testdogsproject.network.map
 import ch.iagentur.unity.testdogsproject.misc.test.EspressoIdlingResource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class DogBreedsViewModel @Inject constructor(
@@ -49,7 +50,7 @@ class DogBreedsViewModel @Inject constructor(
 
     fun updateDogBreeds() {
         viewModelScope.launch {
-            Log.d("DogBreedsViewModel", "launch")
+            Timber.d("DogBreedsViewModel launch")
             repositoryRetriever.getDogBreeds(page).collect { resource ->
                 DogBreedsViewModel
                 if (resource.status == Resource.Status.SUCCESS) {
