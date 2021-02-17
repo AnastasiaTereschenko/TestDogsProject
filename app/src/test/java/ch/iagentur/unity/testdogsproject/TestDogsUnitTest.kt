@@ -6,7 +6,7 @@ import ch.iagentur.unity.testdogsproject.data.network.DogBreed
 import ch.iagentur.unity.testdogsproject.network.RepositoryRetriever
 import ch.iagentur.unity.testdogsproject.network.Resource
 import ch.iagentur.unity.testdogsproject.test.getOrAwaitValue
-import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsViewModel
+import ch.iagentur.unity.testdogsproject.ui.screens.dogsBreeds.DogBreedsViewModel
 import com.carlosgub.coroutines.utils.CoroutinesRule
 import io.mockk.coEvery
 import io.mockk.mockk

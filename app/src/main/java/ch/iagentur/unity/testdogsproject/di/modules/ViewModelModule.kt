@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ch.iagentur.unity.testdogsproject.di.ViewModelKey
 import ch.iagentur.unity.testdogsproject.misc.viewModel.AppViewModelFactory
-import ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds.DogBreedsViewModel
+import ch.iagentur.unity.testdogsproject.ui.screens.dogsBreeds.DogBreedsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

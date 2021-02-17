@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.dogsBreeds
 
 import android.content.Context
 import android.view.ViewGroup

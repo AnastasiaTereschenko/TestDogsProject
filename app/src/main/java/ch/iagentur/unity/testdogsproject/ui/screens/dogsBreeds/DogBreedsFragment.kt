@@ -1,4 +1,4 @@
-package ch.iagentur.unity.testdogsproject.ui.screens.bogsBreeds
+package ch.iagentur.unity.testdogsproject.ui.screens.dogsBreeds
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.iagentur.unity.testdogsproject.DogBreedsApplication
@@ -20,6 +21,9 @@ import ch.iagentur.unity.testdogsproject.ui.pagination.RecyclerViewPagination
 import ch.iagentur.unity.testdogsproject.ui.screens.base.BaseFragment
 import ch.iagentur.unity.testdogsproject.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_bog_breeds.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 
 class DogBreedsFragment : BaseFragment() {
     lateinit var pagination: RecyclerViewPagination
@@ -47,6 +51,7 @@ class DogBreedsFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_bog_breeds, container, false)
     }
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("DogBreedsFragment", "onViewCreated")
@@ -71,24 +76,34 @@ class DogBreedsFragment : BaseFragment() {
             fdbErrorLoadingView.visibility = View.GONE
             dogBreedsViewModel.updateDogBreeds()
         }
-        dogBreedsViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    displayDogBreeds(it.data)
-                    if (!EspressoIdlingResource.idlingResource.isIdleNow) {
-                        EspressoIdlingResource.decrement()
-                    }
-                }
-                Resource.Status.ERROR -> {
-                    if (it.data != null) {
-                        displayDogBreeds(it.data)
-                        pagination.lastPageLoaded()
-                    } else {
-                        handleLoadingError()
-                    }
-                }
+        observeState()
+//        dogBreedsViewModel.dogBreedsLiveData.observe(this as LifecycleOwner, Observer {
+//            when (it.status) {
+//                Resource.Status.SUCCESS -> {
+//                    displayDogBreeds(it.data)
+//                    if (!EspressoIdlingResource.idlingResource.isIdleNow) {
+//                        EspressoIdlingResource.decrement()
+//                    }
+//                }
+//                Resource.Status.ERROR -> {
+//                    if (it.data != null) {
+//                        displayDogBreeds(it.data)
+//                        pagination.lastPageLoaded()
+//                    } else {
+//                        handleLoadingError()
+//                    }
+//                }
+//            }
+//        })
+    }
+
+    @InternalCoroutinesApi
+    private fun observeState() {
+        lifecycleScope.launchWhenStarted {
+            dogBreedsViewModel.dogBreedStateFlow.collect { value ->
+                displayDogBreeds(value)
             }
-        })
+        }
     }
 
     private fun setRefresh(isRefresh: Boolean) {
